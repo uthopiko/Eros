@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title></title>
+{% stylesheets 'bundles/erosfrontend/css/eros.css' filter='cssrewrite' %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>
+<!--<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>-->
+<!-- TODO: subir Jquery a server-->
+<script src="http://localhost/Eros/jquery.ui.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jQuery.main.js') }}"></script>
+
+<style>
+.product_img{
+    float:left;
+}
+.product_info{
+    margin-left:160px;
+}
+
+#cliente_btn{
+    margin-left: 230px;
+    position: relative;
+    top: -54px;
+}
+
+#details_btn{
+    margin-left: 230px;
+    position: relative;
+    top: -54px;
+}
+
+#pedido_btn{
+    margin-left: 230px;
+    position: relative;
+    top: -54px;
+}
+.prod_box_big{
+    clear:both;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#form_2").submit(function(){
+        $.post("{{ path('_profile_register')}}",$(this).serializeArray(),function(respuesta){
+            /*if(respuesta.code){
+                $.post(Routing.generate('_profile_edit'),function(respuesta){
+                    $("#Content").html(respuesta);
+                    //alert("El dato fue creado");
+                });
+            }else{*/
+                alert("El no fue creado");
+            /*}*/
+            return false;
+        });
+    return false;;
+    });
+});
+</script>
+</head>
+
+<body>
+	<form id="form_2" action="{{ path('_profile_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+    {{form_widget(form)}}
+    {{form_rest(form)}}
+    <div>
+        <input id="asd" type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+    </div>
+</form>
+</body>
+
+</html>

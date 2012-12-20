@@ -1,0 +1,76 @@
+<div>
+	<span id="title" data-pidarticulo="{{ PidArticulo}}">Especificaciones</span>
+	<span><button id="addSection">Añadir seccion</button></span>
+	<span><input type="text" id="nameSection" placeholder="Nombre Nueva Seccion"></span>
+</div>
+
+<section role="list">
+	{% for key,spec in specs %}
+	{% set idsection = spec[0].section.id %}
+	<article data-section="{{ idsection }}">
+		<h1>{{key}}</h1>
+		<ul>
+		{% for s in spec %}
+			<li>{{ s.specification }} : {{ s.value }} <img src="{{ asset('bundles/erosextranet/images/icos/page_edit.png')}}"><a data-action="deleteSpec" data-id="{{s.id}}" class="deleteSpec"><img src="{{ asset('bundles/erosextranet/images/icos/delete.png')}}"></a></li>
+		{% endfor %}
+		</ul>
+		<input type="text" id="spec{{ idsection }}" placeholder="Especificación">
+	  	<input type="text" id="value{{ idsection }}" placeholder="Value">
+	  	<a data-action="addSpec" data-section="{{ idsection }}"><img  src="{{ asset('bundles/erosextranet/images/icos/add.png')}}"></a>
+	</article>
+
+	{% endfor %}
+</section>
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$("a[data-action=deleteSpec]").on("click",function(){
+		var id = $(this).data("id");
+		var control = $(this);
+		$.ajax({
+		    url: Routing.generate('_spec_delete',{'PidSpec':id}),
+		    type: "POST",
+		    success: function(data){
+				control.parent().remove();
+		    },
+		    error: function(data){alert("fail")}
+		});
+	});
+
+	$("input ~ a[data-action='addSpec']").on("click",function(){
+		var inputValue = $(this).prev();
+		var inputSpec = inputValue.prev();
+		var PidArticulo = $("#title").data("pidarticulo");
+
+		$.ajax({
+		    url: Routing.generate('_spec_add',{'PidArticulo':PidArticulo,'NombreSpecification':inputSpec.val(),'Value':inputValue.val(),'Section':$(this).data('section')}),
+		    type: "POST",
+		    success: function(data){
+		    	var idsection = data.item["section "];
+		    	$("article[data-section=" + idsection + "] ul").append(
+		    		"<li>" + data.item.specification + " : " + data.item.value + "<img src=\"{{ asset('bundles/erosextranet/images/icos/page_edit.png')}}\"><a data-action=\"deleteSpec\" data-id=\"" + data.item.id + "\" class=\"deleteSpec\"><img src=\"{{ asset('bundles/erosextranet/images/icos/delete.png')}}\"></a></li>");
+		    },
+		    error: function(data){alert("fail")}
+		});
+	});
+
+	$("#addSection").on("click",function(){
+		var nameSection = $("#nameSection").val();
+		var PidArticulo = $("#title").data("pidarticulo");
+		$.ajax({
+		    url: Routing.generate('_section_add',{'PidArticulo':PidArticulo,'NombreSection':nameSection}),
+		    type: "POST",
+		    success: function(data){
+		    	var html = "<article data-section=" + data.item.id+ ">";
+				html += "<h1>" + data.item.section + "</h1>";
+				html += "<ul>";
+			    html += "<li>Inicial : Inicio</li>";
+				html += "</ul>";
+				html += "</article>";
+				$("section").append(html);
+		    },
+		    error: function(data){alert("fail")}
+		});
+	});
+});
+</script>

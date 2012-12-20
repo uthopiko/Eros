@@ -1,0 +1,43 @@
+/*
+ * AUTHOR: Asier
+ * CSS:Extranet
+ * 
+ * */
+
+label{    
+	clear: left;
+    float: left;
+    font-size: 12px;
+}
+input{
+	clear: left;
+    float: left;
+}
+select{
+	clear: left;
+    float: left;
+}
+textarea{
+	clear: left;
+    float: left;
+}
+
+/*
+ * Clases!!
+ * */
+.columna1{
+	padding-left: 1%;
+}
+
+.columna2{
+	padding: 0 28%;
+    position: absolute;
+}
+
+/**
+ * IDSS!!!
+ * */
+#tablapromocionesdetails{
+	top:300px;
+	position:relative;
+}

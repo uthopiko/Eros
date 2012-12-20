@@ -1,0 +1,27 @@
+{% block content %}
+<script type="text/javascript">
+$("#form_2").submit(function(){
+    $.post("{{ path('_profile_edit_ajax')}}",$(this).serializeArray(),function(respuesta){
+        if(respuesta.code){
+            //$.post(Routing.generate('_profile_edit'),function(respuesta){
+                    //$("#Content").html(respuesta);
+                    //alert("El dato fue creado");
+        }else{
+            alert("El no fue creado");
+        }
+            return false;
+    });
+});
+
+</script>
+{% form_theme form theme %}
+
+<form id="form_2" action="{{ path('_profile_edit_ajax') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit">
+    {{form_widget(form)}}
+    {{form_rest(form)}}
+    <div>
+        <input type="submit" value="{{ 'profile.edit.submit'|trans({}, 'FOSUserBundle') }}" />
+    </div>
+</form>
+
+{% endblock %}

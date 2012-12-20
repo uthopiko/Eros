@@ -1,0 +1,45 @@
+<h1>Tarifas</h1>
+
+<table class="record_properties">
+    <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Tarifa</th>
+            <td>{{ entity.tarifa }}</td>
+        </tr>
+        <tr>
+            <th>Limitemenor</th>
+            <td>{{ entity.limitemenor }}</td>
+        </tr>
+        <tr>
+            <th>Limitemayor</th>
+            <td>{{ entity.limitemayor }}</td>
+        </tr>
+        <tr>
+            <th>Descuento</th>
+            <td>{{ entity.descuento }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('tarifas') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('tarifas_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>
+        <form action="{{ path('tarifas_delete', { 'id': entity.id }) }}" method="post">
+            {{ form_widget(delete_form) }}
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+</ul>

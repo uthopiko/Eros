@@ -1,0 +1,39 @@
+imports:
+    - { resource: config_dev.yml }
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+web_profiler:
+    toolbar: false
+    intercept_redirects: false
+
+swiftmailer:
+    disable_delivery: true
+security:  
+   firewalls:  
+     main:  
+       pattern:  /.*  
+       http_basic:  
+         realm: "Secured Area"  
+         provider: fos_userbundle  
+       logout:   true  
+       security:  true  
+       stateless: true  
+       anonymous: true
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     %database_host%
+        port:     %database_port%
+        dbname:   ErosTest  #aquí se pone el nombre de la base de datos de prueba
+        user:     %database_user%
+        password: %database_password%
+        charset:  UTF8
+
+    orm:
+        auto_generate_proxy_classes: %kernel.debug%
+        auto_mapping: true
+

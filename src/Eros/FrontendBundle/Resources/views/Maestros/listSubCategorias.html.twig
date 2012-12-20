@@ -1,0 +1,9 @@
+{% block content %}
+ <div>
+	{% set cont = 1 %}
+	{% for pref in preferencias %}
+		<input type="checkbox" name="chkPreferencia{{ cont }}" value="{{ pref.id }}">{{ pref.SubCategoria }}
+		{% set cont = cont + 1 %}
+	{% endfor %}
+	</select>
+{% endblock %}

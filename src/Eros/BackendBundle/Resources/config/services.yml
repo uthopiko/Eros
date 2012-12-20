@@ -1,0 +1,94 @@
+# Eros/BackendBundle/Resources/config/services.yml
+
+services:
+    sonata.eros.admin.estadopedido:
+        class: Eros\BackendBundle\Admin\EstadoPedidoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Backend', label: Estados Pedidos }
+        arguments:
+            - null
+            - Eros\BackendBundle\Entity\MstEstadoPedido
+            - ErosBackendBundle:Admin
+
+    sonata.eros.admin.tipodescuento:
+        class: Eros\BackendBundle\Admin\TipoDescuentoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Backend', label: Tipo Descuento }
+        arguments:
+            - null
+            - Eros\BackendBundle\Entity\MstTipoDescuento
+            - ErosBackendBundle:Admin
+    sonata.eros.admin.user:
+        class: Eros\FrontendBundle\Admin\UserAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Frontend', label: Usuarios }
+        arguments:
+            - null
+            - Eros\FrontendBundle\Entity\User
+            - ErosFrontendBundle:Admin
+        calls:
+            - [ setUserManager, [ @fos_user.user_manager ] ]
+    sonata.eros.admin.categoria:
+        class: Eros\FrontendBundle\Admin\CategoriaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Frontend', label: Categorias }
+        arguments:
+            - null
+            - Eros\FrontendBundle\Entity\Category
+            - ErosFrontendBundle:Admin
+    sonata.eros.admin.subcategoria:
+        class: Eros\FrontendBundle\Admin\SubCategoriaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Frontend', label: Sub-Categoria }
+        arguments:
+            - null
+            - Eros\FrontendBundle\Entity\SubCategory
+            - ErosFrontendBundle:Admin
+    sonata.eros.admin.articulos:
+        class: Eros\FrontendBundle\Admin\ProductoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Frontend', label: Productos }
+        arguments:
+            - null
+            - Eros\FrontendBundle\Entity\Product
+            - ErosFrontendBundle:Admin
+    sonata.eros.admin.unidadmedida:
+        class: Eros\BackendBundle\Admin\UnidadMedidaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Backend', label: Unidades de Medida }
+        arguments:
+            - null
+            - Eros\BackendBundle\Entity\MstUnidadMedida
+            - ErosBackendBundle:Admin
+    sonata.eros.admin.parametrosdescuento:
+        class: Eros\BackendBundle\Admin\ParametrosDescuentoAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Backend', label: Parametros de descuento }
+        arguments:
+            - null
+            - Eros\BackendBundle\Entity\MstParametrosDescuento
+            - ErosBackendBundle:Admin
+    sonata.eros.admin.estadopromocion:
+        class: Eros\BackendBundle\Admin\EstadoPromocionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Backend', label: Estado Promoción }
+        arguments:
+            - null
+            - Eros\BackendBundle\Entity\MstEstadosPromocion
+            - ErosBackendBundle:Admin
+    sonata.eros.admin.roles:
+        class: Eros\BackendBundle\Admin\RolAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Backend', label: Roles }
+        arguments:
+            - null
+            - Eros\BackendBundle\Entity\MstRoles
+            - ErosBackendBundle:Admin
+    sonata.eros.admin.valoresmedida:
+        class: Eros\BackendBundle\Admin\ValoresMedidaAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm,group: 'Backend', label: Valores Medidas }
+        arguments:
+            - null
+            - Eros\BackendBundle\Entity\MstValoresMedidas
+            - ErosBackendBundle:Admin

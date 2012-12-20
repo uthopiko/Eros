@@ -1,0 +1,56 @@
+{% block content %}
+<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+        var lastsel2;
+        $("#list2").jqGrid({
+            url: Routing.generate('_pedidos_filter',{'Controlador':'Pedidos'}),
+            datatype: "json",
+            colNames:['Id','IdEstado','IdTarifa','Articulo','Cantidad','Empresa','Tarifa','Descuento','Precio','Descuento',''],
+            colModel:[
+              {name:'p.id',index:'p.id', width:50},
+              {name:'ep.id',index:'ep.id', width:50,hidden:true},
+              {name:'t.pidtarifa',index:'t.pidtarifa', width:50,hidden:true},
+              {name:'a.nombre',index:'a.nombre', width:200},
+              {name:'p.numeroarticulos',index:'p.numeroarticulos', width:50},
+              {name:'e.nombrecomercial',index:'e.nombrecomercial',width:150},
+              {name:'t.tarifa',index:'t.tarifa',width:100},
+              {name:'p.precio',index:'p.precio',width:50},
+              {name:'a.precio',index:'a.precio', width:50,hidden:true},
+              {name:'t.descuento',index:'t.descuento',width:50},
+              {name:'details',index:'details', width:75,sortable:false},
+            ],
+            rowNum:20,
+            height:441,
+            width:1000,
+            rowList:[20,40,60],
+            pager: '#pager2',
+            sortname: 'p.id',
+            viewrecords: true,
+             gridComplete: function(){
+              var ids = $("#list2").jqGrid('getDataIDs');
+              for(var i=0;i < ids.length;i++){
+                var data = jQuery("#list2").jqGrid('getRowData',ids[i]);
+                var cl = ids[i];
+                /*be = "<input style='height:22px;width:20px;' type='button' value='E' onclick=\"$('#list2').editRow('"+cl+"');\"  />";*/
+                be = "<a class='btn-mini details' href='#' data-action='_pedido_details' data-var='{\"PidPedido\":"+cl+",\"Nombre\":\""+data['a.nombre']+"\",\"Cantidad\":\""+data['p.numeroarticulos']+"\",\"EmpresaCliente\":\""+data['e.nombrecomercial']+"\",\"Tarifa\":\""+data['t.pidtarifa']+"\",\"Precio\":\""+data['p.precio']+"\",\"EstadoPedido\":\""+data['ep.id']+"\",\"Descuento\":\""+data['t.descuento']+"\",\"PrecioArticulo\":\""+data['a.precio']+"\"}'>Ir a detalle&raquo;</a>";
+        
+                $("#list2").jqGrid('setRowData',ids[i],{details:be});
+              }
+            },
+            caption: "Listado de Pedidos"
+          });
+          $("#list2").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
+});
+</script>
+<div class="span10" id="Content">
+  <h2>Listado de Pedidos</h2>
+  <p></p>
+  <div id="table">
+    <table id="list2"></table>
+    <div id="pager2"></div>
+  </div>
+
+</div>
+{% endblock %}

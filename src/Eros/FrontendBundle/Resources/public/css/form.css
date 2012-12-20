@@ -1,0 +1,65 @@
+/* 
+    Document   : form.css
+    Created on : 20-ene-2012, 14:00:31
+    Author     : aramos
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.details{	
+	margin:0px 10px;
+	background-color:#FFF;		
+	padding:10px;
+	display:block;
+	clear:both;
+        padding: 10px 10px 10px 10px;
+	/*border-radius:0 0 1em 1em;
+	-webkit-border-radius:0 0 1em 1em ;
+	-moz-border-radius:0 0 1em 1em;
+	-moz-box-shadow: 0px 5px 20px #AAAAAA; 
+	-webkit-box-shadow: 0px 5px 20px #AAAAAA; 
+	box-shadow: 0px 5px 20px #AAAAAA; 
+	min-height:400px;*/
+}
+/*#txtHoraMananaDesde { width:15%;}
+#txtHoraMananaHasta { width:15%;}
+#txtHoraTardeDesde { width:15%;}
+#txtHoraTardeHasta { width:15%;}
+.details .search    { margin: 10px 0px 5px;}
+.details .resultscount  {text-align:left;display:block;margin:0px 0px 0px 0px;}
+.details .filtersummary {text-align:left;display:block;margin:0px 0px 5px 0px;}
+.details .item .pickerone   {float:left;width:75%;font-size:11px;margin-right:5px;}
+.details .item input[type="checkbox"]   {margin:7px 0 0 0;}
+.details .columnleft    {margin:10px 15px;float:left;}
+.details .columnright   {margin:10px 15px;float:left;}*/
+.details fieldset   {border:0px;text-align:justify;padding:0px;}
+/*.details fieldset .item {float:left;margin-bottom:5px;display:table;padding-right:1%;height:45px;}
+.details fieldset .XXS    {width:10%;}
+.details fieldset .XS    {width:9px;}
+.details fieldset .S    {width:19%;}
+.details fieldset .M    {width:39%;}
+.details fieldset .L    {width:59%;}
+.details fieldset .XL   {width:79%;}
+.details fieldset .XXL   {width:99%;}*/
+.details fieldset .section  {float:none;clear:both;}
+.details fieldset .section h1 {font-size:16px;clear:both;}
+.details fieldset .section h2 {font-size:20px;clear:both;}
+.details fieldset .section h3 {font-size:24px;clear:both;}
+/*.details fieldset .item .label  {display:block;width:200px;clear:left;text-align:left;}
+.details fieldset .item .edit   {float:left;margin-right:10px;font-size:11px;}
+.details fieldset .item .read   {float:left;color:#676767;margin-top:0px; width:100%;background-color:#F6F6F6; padding:4px 2px 4px 2px;min-height:15px;text-align:left;font-size:11px;border: 1px solid #D8D8D8;}
+.details fieldset .item a.read {color: #7B1A27;}
+.details fieldset .item .valid  {float:left;padding-top:3px;}
+.details fieldset .item .right  {text-align:right;}
+.details .list  {margin:0px;}
+.details .button_list   {margin:0px 0px 10px 0px;}
+
+.required   {padding-left:10px;background:url("../img/required.png") no-repeat scroll left 2px transparent;}
+.red {display:block;width:350px;clear:left;text-align:left;color:#7A1A26;}
+
+.details fieldset .itemx {float:left;display:table;padding-right:10%;height:50px;}*/

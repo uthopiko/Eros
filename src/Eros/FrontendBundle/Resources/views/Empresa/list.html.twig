@@ -1,0 +1,13 @@
+{# src/Cupon/OfertaBundle/Resources/views/Empresa/list.html.twig #}
+{% extends "ErosFrontendBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="center_title_bar">Latest Products</div>
+    {% for empresa in empresas %}
+    	<div class="prod_box_empresas">
+		<img src="http://blog.bordercrossingmedia.com/wp-content/uploads/2012/01/symfony_black_03-1.png" style="float:right;height:105px;width:125px;padding-top: 1%;margin-right: 2%;margin-top: 1%;margin-bottom: 1%;border: 1px dotted;border-radius: 10px 10px 10px 10px;" alt="Cae Nave en Kuala Lumpur" />
+		<div >Empresa:{{empresa.nombrecomercial}}<br>Nif:{{empresa.nif}}<br><span class="btn-mini">Articulos&raquo;</span></div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

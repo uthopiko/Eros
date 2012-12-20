@@ -1,0 +1,55 @@
+{% block widget_choice_options %}
+{% spaceless %}
+    {% for choice, label in options %}
+        {% if _form_is_choice_group(label) %}
+            <optgroup label="{{ choice|trans }}">
+                {% for nestedChoice, nestedLabel in label %}
+                    <option value="{{ nestedChoice }}"{% if _form_is_choice_selected(form, nestedChoice) %} selected="selected"{% endif %}>{{ nestedLabel|trans }}</option>
+                {% endfor %}
+            </optgroup>
+        {% else %}
+            <option class="A" value="{{ choice }}"{% if _form_is_choice_selected(form, choice) %} selected="selected"{% endif %}>{{ label|trans }}</option>
+        {% endif %}
+    {% endfor %}
+{% endspaceless %}
+{% endblock widget_choice_options %}
+
+{% block widget_choice_options_multiple %}
+{% spaceless %}
+    {% for choice, label in options %}
+            <option value="{{ choice }}"{% if _form_is_choice_selected(form, choice) %} selected="selected"{% endif %}>{{ label|trans }}</option>
+    {% endfor %}
+{% endspaceless %}
+{% endblock widget_choice_options_multiple %}
+{% block choice_widget %}
+{% spaceless %}
+    {% if expanded %}
+        <div {{ block('widget_container_attributes') }}>
+        {% for child in form %}
+            {{ form_widget(child) }}
+            {{ form_label(child) }}
+        {% endfor %}
+        </div>
+    {% else %}
+    <select {{ block('widget_attributes') }}{% if multiple %} multiple="multiple"{% endif %}>
+        {% if empty_value is not none %}
+            <option value="">{{ empty_value|trans }}</option>
+        {% endif %}
+        {% if preferred_choices|length > 0 %}
+            {% set options = preferred_choices %}
+            {{ block('widget_choice_options') }}
+            {% if choices|length > 0 and separator is not none %}
+                <option disabled="disabled">{{ separator }}</option>
+            {% endif %}
+        {% endif %}
+        {% set options = choices %}
+        {% if multiple %}
+        	{{ block('widget_choice_options') }}
+        {% else %}
+        	{{ block('widget_choice_options') }}
+        {% endif %}
+       
+    </select>
+    {% endif %}
+{% endspaceless %}
+{% endblock choice_widget %}

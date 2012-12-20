@@ -1,0 +1,13 @@
+<div class="back-container">
+	<div class="imagen-panel" style="text-align:center">
+		{% set rutaimagen = 'uploads/productos/' ~ articulo.imagen %}
+		<img src="{{ rutaimagen | imagine_filter('thumb_small') }}" /><br>
+		Nombre: {{articulo.nombre}} <br>
+		Producto: {{articulo.producto.nombre}} <br>
+		Stock: {{articulo.stock}} <br>
+		Precio: {{articulo.precio}} € <br>
+	</div>
+	<input type="button" class="edit-submit" value="Back">
+	<a href="{{ path('_articulo_especificaciones',{'PidArticulo':articulo.pidarticulo}) }}" class="contentLink"><input type="button" value="Especificaciones"></a>
+</div>
+		

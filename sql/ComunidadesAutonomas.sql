@@ -1,0 +1,18 @@
+INSERT INTO `mst_comunidadautonoma` (`PidComunidadAutonoma`, `ComunidadAutonoma`, `Codigo`) VALUES
+(1, 'Andalucía', '01'),
+(2, 'Aragón', '02'),
+(3, 'Asturias', '03'),
+(4, 'Baleares', '04'),
+(5, 'Canarias', '05'),
+(6, 'Cantabria', '06'),
+(7, 'Castilla-La Mancha', '07'),
+(8, 'Castilla y León', '08'),
+(9, 'Cataluña', '09'),
+(10, 'Comunidad Valenciana', '10'),
+(11, 'Extremadura', '11'),
+(12, 'Galicia', '12'),
+(13, 'La Rioja', '13'),
+(14, 'Madrid', '14'),
+(15, 'Navarra', '15'),
+(16, 'País Vasco', '16'),
+(17, 'Murcia', '17');

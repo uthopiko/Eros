@@ -1,0 +1,89 @@
+{% block content %}
+<script type="text/javascript">
+$(document).ready(function() {
+		$("#eros_extranetbundle_pedidotype_tarifa").change(function(){
+			$.post(Routing.generate('_get_descuento',{'PidTarifa':$(this).val()}),function(data){
+				$('#eros_extranetbundle_pedidotype_precio').val({{precioarticulo}} - ({{precioarticulo}}*(data/100)));
+			});
+			return false;
+	});
+
+	$("#sbmtModificar").click(function(){
+	    $.post("{{ path('_pedido_edit',{'PidPedido':PidPedido})}}",$("#form_2").serializeArray(),function(respuesta){
+	        if(respuesta.code){
+	   			$("#sbmtModificar").removeClass("btn btn-primary");
+	   			$("#sbmtModificar").attr("class","btn btn-success");
+	   			$("#sbmtModificar").html("Modificado");
+	   			setInterval("$('#sbmtModificar').attr('class','btn btn-primary');$('#sbmtModificar').html('Aceptar Modificacion');",3000);
+	        }else{
+	            alert("El no fue creado");
+	        }
+	    });
+	    return false;
+	});
+
+	$("#btnConfirmar").click(function(){
+		if(confirm('Deseas confirmar el pedido?')){
+		 	$("select").removeAttr('disabled');
+		    $("input").removeAttr('disabled');
+		    $("select").attr('readonly','readonly');
+		    $("input").attr('readonly','readonly');
+		    $("#eros_extranetbundle_pedidotype_estadopedido").val("8")
+		    $.post("{{ path('_pedido_edit',{'PidPedido':PidPedido})}}",$("#form_2").serializeArray(),function(respuesta){
+	        if(respuesta.code){
+		            $("select").removeAttr('readonly');
+				    $("input").removeAttr('readonly');
+				    $("select").attr('disabled','true');
+				    $("input").attr('disabled','true');
+		   			alert("Pedido Aceptado");
+		        }else{
+		            alert("El no fue creado");
+		        }
+		    });
+		}
+		return false;
+	});
+
+	$("#btnModificar").click(function(){
+		    $("select").removeAttr('disabled');
+		    $("input").removeAttr('disabled');
+		    $("submit").css("display","block");
+		    $("button").attr("disabled","true");
+		    $("#sbmtModificar").removeAttr('disabled');
+		    $("#btnCancelar").removeAttr('disabled');
+		    $("#sbmtModificar").css("display","block");
+		    $("#btnCancelar").css("display","block");
+		    return false;
+	});
+
+	$("#btnCancelar").click(function(){
+		    $("select").attr('disabled','true');
+		    $("input").attr('disabled','true');
+		    $("button").removeAttr('disabled');
+		    $("#sbmtModificar").css("display","none");
+		    $("#btnCancelar").css("display","none");
+		    return false;
+	});
+
+});
+</script>
+
+{% form_theme form 'ErosExtranetBundle:Twig:new_widget.html.twig' %}
+
+<h2>Articulo:<b>{{articulo}}</b></br>
+Cantidad:<b>{{cantidad}}</b></br>
+Cliente:<b>{{cliente}}</h2></b></br>
+<button id="btnModificar" class="btn contentLink btn-primary" href="#">Modificar Pedido</button>
+<button id="btnConfirmar" class="btn contentLink btn-primary" href="#">Confirmar Pedido</button>
+<button id="btnAnular" class="btn contentLink btn-primary" href="#">Anular Pedido</button>
+<p></p>
+<form id="form_2" action="{{path('_pedido_edit',{'PidPedido':PidPedido})}}">
+{{ form_label(form.precio,'Precio:') }}
+{{ form_widget(form.precio,{'value':precio})}}
+{{ form_label(form.tarifa,'Tarifa:') }}
+{{ form_widget(form.tarifa)}}<br />
+{{ form_label(form.estadopedido,'Estado Pedido:') }}
+{{ form_widget(form.estadopedido)}}<br />
+<button id="sbmtModificar" class="btn contentLink btn-primary" href="#" style="display:none;float:left;margin-right:8px;">Aceptar Modificacion</button>
+<button id="btnCancelar" class="btn contentLink" href="#" style="display:none">Cancelar</button>
+{% endblock%}

@@ -1,0 +1,8 @@
+{% block form_widget %}
+{% spaceless %}
+    <div id="AAAAAA" {{ block('widget_container_attributes') }}>
+        {{ block('field_rows') }}
+        {{ form_rest(form) }}
+    </div>
+{% endspaceless %}
+{% endblock %}

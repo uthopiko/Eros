@@ -1,0 +1,4 @@
+# app/config/services.yml
+services:
+    eros.utilidades:
+        class: Eros\FrontendBundle\Util\Util

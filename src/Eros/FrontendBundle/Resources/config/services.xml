@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<services>
+        <service id="twig.extension.eros.frontend" class="Eros\FrontendBundle\Twig\Extension\ErosFrontendExtension" public="false">
+            <tag name="twig.extension" />
+            <argument type="service" id="twig.loader" />
+        </service>
+  
+    <service id="frontend.register.bussiness.form" factory-method="create" factory-service="form.factory" class="Symfony\Component\Form\Form">
+            <argument>frontend_register_bussiness</argument>
+        </service>
+
+        <service id="frontend.register.bussiness.form.type" class="Eros\FrontendBundle\Form\Type\RegisterBussinessFormType">
+            <argument>%fos_user.model.user.class%</argument>
+            <tag name="form.type" alias="frontend_register_bussiness" />
+        </service>
+
+        <service id="frontend.register.bussiness.form.handler.default" class="Eros\FrontendBundle\Form\Handler\RegisterBussinessFormHandler" scope="request">
+            <argument type="service" id="frontend.register.bussiness.form" />
+            <argument type="service" id="request" />
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="fire_php" />
+        </service>
+
+         <service id="frontend.register.user.form" factory-method="create" factory-service="form.factory" class="Symfony\Component\Form\Form">
+            <argument>frontend_register_user</argument>
+        </service>
+
+        <service id="frontend.register.user.form.type" class="Eros\FrontendBundle\Form\Type\RegisterUserFormType">
+            <argument>%fos_user.model.user.class%</argument>
+            <tag name="form.type" alias="frontend_register_user" />
+        </service>
+
+        <service id="frontend.register.user.form.handler.default" class="Eros\FrontendBundle\Form\Handler\RegisterUserFormHandler" scope="request">
+            <argument type="service" id="frontend.register.user.form" />
+            <argument type="service" id="request" />
+            <argument type="service" id="fos_user.user_manager" />
+            <argument type="service" id="fire_php" />
+        </service>
+    </services>
+</container>

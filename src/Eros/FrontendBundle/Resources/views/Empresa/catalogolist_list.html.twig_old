@@ -1,0 +1,44 @@
+{# src/Cupon/OfertaBundle/Resources/views/Empresa/list.html.twig #}
+{% extends "ErosFrontendBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="center_title_bar">Latest Products</div>
+    {% for articulo in articulos %}
+    	<div class="prod_box_big">           
+                 <div class="product_img"><a href="{{path('articulo_details',{'PidArticulo':articulo.pidarticulo})}}">
+                    {% set rutaimagen = 'uploads/productos/' ~ articulo.imagen %}
+                    <img src="{{ rutaimagen | imagine_filter('thumb_frontend') }}" /></a></div>
+                 <div class="product_info">
+                        Articulo:<span class="ArticuloNombre">{{articulo.nombre}}</span><br>
+                        Precio:<span class="ArticuloNombre"> 
+                        {% if articulo.precio_descuento %}
+                            {{ articulo.precio_descuento | number_format(2, '.', ',')}} €/{{articulo.precio}} €
+                        {% else %}
+                            {{articulo.precio}} €
+                        {% endif %}
+                        </span><br>
+                        Descripcion:<span class="ArticuloNombre">{{articulo.nombre}}</span><br>
+
+                 </div>
+                 <div class="product_actions">
+                    <a href="#" class="modal-popup" data-id="{{articulo.pidarticulo}}" data-precio="{{articulo.precio}}" title="header=[Add to cart] body=[&nbsp;] fade=[on]"><img src="{{ asset('bundles/erosfrontend/images/cart.gif')}}" alt="" title="" border="0" class="left_bt" /></a><br>
+                    {% if is_granted('ROLE_USER') %} 
+                        {% if clientes | length == 0 or articulo.empresa_id not in clientes %}
+                            {% set style_add= 'display:block;padding-top:10px;padding-bottom:10px;' %}
+                            {% set style_delete= 'display:none' %}
+                        {% else %}
+                            {% set style_add= 'display:none' %}
+                            {% set style_delete= 'display:block;padding-top:10px;padding-bottom:10px;' %}
+                        {% endif %}
+                    <a href="#" title="header=[Convertir en cliente]"  data-cliente="{{articulo.empresa_id}}" class="modal-popup_add cliente{{articulo.empresa_id}}_add_link" style="{{style_add}}"><img id="cliente_img" src="{{ asset('bundles/erosfrontend/images/cliente_add.png')}}" alt="" title="" border="0" class="left_bt" /></a>
+                
+                     <a href="#" title="header=[Convertir en cliente]"  data-cliente="{{articulo.empresa_id}}" class="modal-popup_delete cliente{{articulo.empresa_id}}_delete_link" style="{{style_delete}}"><img id="cliente_img" src="{{ asset('bundles/erosfrontend/images/cliente_delete.png')}}" alt="" title="" border="0" class="left_bt" /></a>
+                
+            {% endif %}<br>
+            <a href="#" title="header=[Gifts] body=[&nbsp;] fade=[on]"><img src="{{ asset('bundles/erosfrontend/images/favorites.gif')}}" alt="" title="" border="0" class="left_bt" /></a>
+            <a href="details.html" class="prod_details">details</a>              
+        </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

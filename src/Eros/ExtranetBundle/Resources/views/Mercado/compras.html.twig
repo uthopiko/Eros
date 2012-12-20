@@ -1,0 +1,80 @@
+{% block content %}
+<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+       $("#btnBusquedaArticulo").live("click",function(){
+          $("#list2").jqGrid('clearGridData', true);
+          $("#list2").jqGrid('setGridParam', { url: Routing.generate('_compras_filter',{'pattern': $('#busquedaArticulo').val()}), page: 1}).trigger("reloadGrid");
+        });
+
+        $("#btnSave").live("click",function(){
+          var ids = $("#list2").jqGrid('getDataIDs');
+              for(var i=0;i < ids.length;i++){
+                var data = jQuery("#list2").jqGrid('getRowData',ids[i]);
+                console.log(data['cantidad']);
+                var ok="False";
+                if(data['cantidad']!=""){
+                    $.post(Routing.generate('_compras_add',{'PidArticulo': data['a.pidarticulo'],'Cantidad':data['cantidad']}),function(respuesta){
+                    });
+                }
+              }
+
+              return false;
+        });
+        var lastsel2;
+        $("#list2").jqGrid({
+            url: Routing.generate('_compras_filter',{'pattern': $('#busquedaArticulo').val() == '' ? '*' : $('#busquedaArticulo').val() }),
+            datatype: "json",
+            colNames:['Id','Articulo','Cantidad','Precio','Proveedor'],
+            colModel:[
+              {name:'a.pidarticulo',index:'a.pidarticulo', width:100},
+              {name:'a.nombre',index:'a.nombre', width:250},
+              {name:'cantidad',index:'cantidad',width:100,sortable:false,editable: true},
+              {name:'a.precio',index:'a.precio',width:100,sortable:true},
+              {name:'emp.nombrecomercial',index:'emp.nombrecomercial',width:300,sortable:true}
+            ],
+            rowNum:20,
+            height:441,
+            rowList:[20,40,60],
+            pager: '#pager2',
+            sortname: 'a.pidarticulo',
+            viewrecords: true,
+            sortorder: "desc",
+            gridComplete: function(){
+              var ids = $("#list2").jqGrid('getDataIDs');
+              for(var i=0;i < ids.length;i++){
+                var cl = ids[i];
+                be = "<input style='height:22px;width:75px;' type='button' value='Pedido' data-id='"+cl+"' class='btngrid' />";
+        
+                $("#list2").jqGrid('setRowData',ids[i],{act:be});
+              }
+            },
+            onSelectRow: function(id){
+              if(id && id!==lastsel2){
+                jQuery('#list2').jqGrid('saveRow',lastsel2,true);
+                jQuery('#list2').jqGrid('restoreRow',lastsel2);
+                jQuery('#list2').jqGrid('editRow',id,true);
+                lastsel2=id;
+              }
+            },
+            editurl:  'clientArray',
+            caption: "Articulos Encontrados"
+          });
+          $("#list2").jqGrid('navGrid','#pager2',{edit:false,add:false,del:false});
+});
+</script>
+<div class="span10" id="Content">
+  <h2>Compras de articulos</h2>
+  <p></p>
+  <div class="row">
+    <div class="span7">&nbsp;</div>
+    <div class="span2"><input type="button" name="Guardar" id="btnSave" value="Hacer Pedido"></div>
+  </div>
+  <div id="table">
+    <table id="list2"></table>
+    <div id="pager2"></div>
+  </div>
+
+</div>
+{% endblock %}

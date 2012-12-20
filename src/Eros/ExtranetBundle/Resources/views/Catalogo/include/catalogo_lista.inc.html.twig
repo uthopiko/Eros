@@ -1,0 +1,7 @@
+<ul>
+                {% for articulo in articulos %}
+                        <li data-order='{{articulo.orden}}' data-itemid='{{articulo.pidarticulo}}'>
+                            <div class="clicka">{{articulo.nombre}}</div>
+                        </li>
+                {% endfor %}
+ </ul>

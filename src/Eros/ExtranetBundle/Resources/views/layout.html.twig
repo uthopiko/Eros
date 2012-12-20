@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="description" content="Comercio Web">
+    <meta name="author" content="Asier Ramos">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block stylesheets %}
+	{% stylesheets 'bundles/erosextranet/css/bootstrap-responsive.css' filter='cssrewrite'%}
+	<!--<link href="{{ asset_url }}" rel="stylesheet" -type="text/css" />-->
+
+	{% endstylesheets %}
+	{% stylesheets 'bundles/erosextranet/css/jquery.contextMenu.css' filter='cssrewrite'%}
+	<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+
+	{% endstylesheets %}
+	{% stylesheets 'bundles/erosextranet/css/bootstrap.css' filter='cssrewrite' %}
+	<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+	{% endstylesheets %}
+	{% stylesheets 'bundles/erosextranet/css/flip.css' filter='cssrewrite' %}
+	<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+	{% endstylesheets %}
+	{% endblock %}
+	 <script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>
+ 	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.ui.js') }}"></script>
+	{% stylesheets 'bundles/erosfrontend/css/multiselect/jquery.multiselect.css' filter='cssrewrite' %}
+		<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+	{% endstylesheets %}
+	{% stylesheets 'bundles/erosfrontend/css/multiselect/jquery.ui.css' filter='cssrewrite' %}
+			<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+	{% endstylesheets %}
+	<!--<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css" />-->
+
+	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.multiselect.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/erosextranet/js/jQuery.main.extra.js') }}"></script>
+	 <script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+	 <script src="{{ asset('bundles/erosextranet/js/jquery.jqGrid.min.js') }}" type="text/javascript"></script>
+	 <!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+	 <link rel="stylesheet" type="text/css" media="screen" href="http://www.trirand.com/blog/jqgrid/themes/redmond/jquery-ui-1.8.1.custom.css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="http://www.trirand.com/blog/jqgrid/themes/ui.jqgrid.css" />
+	 <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>-->
+	 <script type="text/javascript" src="{{ asset('bundles/erosextranet/js/i18n/grid.locale-en.js') }}"></script>
+	 <script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+	 <script type="text/javascript">
+    	$(document).ready(function() {
+    		$("#subcategorias_menu").css("display","none");
+    			
+				$(".navbar-inner .container a").click(function(){
+					var id = "#" + $(this).attr("id") + "_Menu";
+					if($(this).attr("id")!="Mercado"){
+						$(".nav-list").css("display","none");
+					
+						var id = "#" + $(this).attr("id") + "_Menu";
+						$(id).css("display","block");
+					}
+					if($(this).attr("id")=="Mercado"){
+						$.post(Routing.generate($(this).data("action")),function(respuesta){
+							$(".nav-list").css("display","none");
+							
+							$(id).css("display","block");
+							$("#Content").html(respuesta);
+						});
+					}
+					return false;
+			});
+
+			$(".nav-list li a").live("click",function(){
+				$.post(Routing.generate($(this).data("action")),function(respuesta){
+					$("#Content").html(respuesta);
+    			});
+    			return false;
+			});
+
+			$(".details").live("click",function(){
+				var variable=$(this).data("var");
+				$.post(Routing.generate($(this).data("action"),variable),function(respuesta){
+					$("#Content").html(respuesta);
+    			});
+    			return false;
+			});
+
+			$('.accordion-sin-js div ul li').click(function() {
+			    var id = $(this);
+			    if($("#subcategorias_menu").css("display")=="none"){
+			      $("#subcategorias_menu").toggle(1,function(){
+			        $.post("{{ path('_ajax_select_subcategorias')}}", { "SidCategoria": $(id).data("categoria")},function(respuesta){
+			          $("#subcategorias_menu").html(respuesta);
+			        });
+			        $('.accordion-sin-js #categorias_menu ul li').css("display","none");
+			        $(id).css("display","block");
+			        
+			      });
+			    }else{
+			      $('.accordion-sin-js #categorias_menu ul li').css("display","block");
+			      $("#subcategorias_menu").css("display","none");
+			    }
+			    return false;
+			  });
+		});
+		function isEmpty(obj) {
+
+			if (typeof obj == 'undefined' || obj === null || obj === '') return true;
+
+			if (typeof obj == 'number' && isNaN(obj)) return true;
+			if (obj instanceof Date && isNaN(Number(obj))) return true;
+
+			return false;
+
+		}
+	</script>
+    {% javascripts '@ErosExtranetBundle/Resources/public/js/bootstrap.min.js'
+				output='bootstrap/js/bootstrap.min.js'%}
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	 {% javascripts '@ErosExtranetBundle/Resources/public/js/jquery.contextMenu.js'
+				output='js/ContextMenu/src/jquery.contextMenu.js'%}
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	{% javascripts '@ErosExtranetBundle/Resources/public/js/flip.js'
+				output='js/ContextMenu/src/flip.js'%}
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	
+    <style>
+      body { padding-top: 60px; }
+
+    .flash-aviso {
+		margin-left: 20%;
+		padding-left: 2%;
+		width: 100%;
+		background-color: yellowGreen;
+		border-radius: 10px;
+		text-align: center;
+		font-size: 15px;
+		font-family: Arial;
+	}
+    </style>
+  </head>
+  <body>
+	<header>
+		
+	</header>
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+			    <a class="brand" href="#">Eros-i</a>
+			    <ul class="nav">
+				<li class="active"><a href="#" id="Perfil">Perfil</a></li>
+				<li><a href="#" id="Catalogo">Mi Catalogo</a></li>
+				<li><a class="boton" href="#" data-action="_compras_list" id="Mercado">Mercado</a></li>
+				<li><a href="#" id="Eventos">Eventos</a></li>
+				<li><a href="#" id="Administracion">Administracion</a></li>
+				<li><a href="#" id="Promociones">Promociones</a></li>
+				{% if(is_granted('ROLE_PROVEEDOR')) %}
+					<li><a href="#" id="Proveedores">Proveedores</a></li>
+				{% endif %}
+				<li><a href="#" id="Importaciones">Importaciones</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+	  <div class="row-fluid">
+			<div id="menu_lateral" class="span2">
+				{% include 'ErosExtranetBundle:Navegacion:include/menuPerfil.html.twig' %}
+				{% include 'ErosExtranetBundle:Navegacion:include/menuCatalogo.html.twig' %}
+				{% include 'ErosExtranetBundle:Navegacion:include/menuEventos.html.twig' %}
+				{% include 'ErosExtranetBundle:Navegacion:include/menuEstadisticas.html.twig' %}
+				{% include 'ErosExtranetBundle:Navegacion:include/menuPromociones.html.twig' %}
+				{% include 'ErosExtranetBundle:Navegacion:include/menuMercado.html.twig' %}
+				{% if(is_granted('ROLE_PROVEEDOR')) %}
+					{% include 'ErosExtranetBundle:Navegacion:include/menuProveedores.html.twig' %}
+				{% endif %}
+				{% include 'ErosExtranetBundle:Navegacion:include/menuDatos.html.twig' %}
+		  </div>
+		  {%  if  app.session.hasFlash('empresas')  %}
+	 		<div class="flash-aviso">
+	                Mensaje: {{  app.session.flash('empresas')  }}
+	        </div>
+		{%  else  %}
+		  <div class="span10" id="Content">
+			{% block content %}
+			{% endblock %}
+			</div>
+		{%  endif  %}
+	</div> <!-- /container -->
+  </body>
+</html>

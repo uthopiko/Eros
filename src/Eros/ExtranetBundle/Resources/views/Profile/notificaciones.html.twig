@@ -1,0 +1,23 @@
+{% extends "ErosExtranetBundle::layout.html.twig" %}
+
+{% block content %}
+<h2>Mensajes</h2>
+<ul>
+<li><i class="icon-envelope"></i>&nbsp;Tienes mensajes nuevos<br\></li>
+</ul>
+<h2>Compras Usuarios</h2>
+<ul>
+	<li  id="compras"><i class="icon-flag"></i>&nbsp;Tienes {{ ItemsPendientes}} compras.<br\></li>
+	<li  id="compras-pendientes"><i class="icon-flag"></i>&nbsp;Tienes {{ ItemsPagados }} compras pendientes de confirmar.<br\></li>
+</ul>
+<h2>Pedidos Recibidos</h2>
+<ul>
+<li  id="pedidos-pendientes-realizados"><i class="icon-flag"></i>&nbsp;Tienes {{ PedidosPendientesRecibidos }} pedidos pendientes de responder.<br\></li>
+<li  id="pedidos-pendientes-cliente"><i class="icon-flag"></i>&nbsp;Tienes {{ PedidosPendienteCliente }} pedidos pendientes de respuesta de cliente.<br\></li>
+</ul>
+<h2>Pedidos Realizados</h2>
+<ul>
+<li  id="pedidos-pendientes"><i class="icon-flag"></i>&nbsp;Tienes {{ PedidosPendientesResponder }} pedidos de respuesta de proveedor.<br\></li>
+<li  id="pedidos-pendientes-cliente"><i class="icon-flag"></i>&nbsp;Tienes {{ PedidosPendienteProveedorRecibidos }} pedidos pendientes de responder.<br\></li>
+</ul>
+{% endblock %}

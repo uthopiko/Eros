@@ -1,0 +1,42 @@
+{% extends "ErosExtranetBundle::layout.html.twig" %}
+
+{% block content %}
+{% javascripts '@ErosExtranetBundle/Resources/public/js/jquery.kalendar.min.js'
+				 output='erosextranet/js/compiled/kalendar.js'%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+<link rel="stylesheet" href="{{ asset('bundles/erosextranet/css/kalendar.css') }}" type="text/css" media="all" />
+<script language="javascript" type="text/javascript">
+	$(document).ready(function(){
+			$("#PromocionType_TipoPromocion").change(function(){
+					$.post("{{ path('_select_tipodescuento_ajax')}}",function(respuesta){
+						$("#PromocionType_TipoDescuento").css("display","block");
+						$("label[for='PromocionType_TipoDescuento']").css("display","block");
+						$("#PromocionType_TipoDescuento").html(respuesta);
+					});
+					if($("#PromocionType_TipoPromocion").val()!=1){
+						$("#tablapromocionesdetails").css("display","block");
+					}else{
+						$("#tablapromocionesdetails").css("display","none");
+					}
+				});
+			
+			$(".calendar").kalendar();
+	});
+</script>
+
+ <div id="formulario">
+   <form action="{{ path('_promociones_details',{'PidPromocion' : '1'}) }}" method="POST" {{ form_enctype(form) }} id="promociones_form">
+		<div class="columna1">
+		{{ form_label(form.Nombre) }}
+		{{ form_widget(form.Nombre) }}
+		</div>
+		<input type="submit" value="Agregar Catalogo" class="second" />
+	</form>
+ </div>
+ <br><p>
+ <div id="tablapromocionesdetails" style="display:none">
+{% include 'ErosExtranetBundle:Promociones:include/articulospromo.inc.html.twig' %}
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service id="extranet.profile.form" factory-method="create" factory-service="form.factory" class="Symfony\Component\Form\Form">
+            <argument>extranet_profile</argument>
+        </service>
+
+        <service id="extranet.profile.form.type" class="Eros\ExtranetBundle\Form\Type\ExtranetProfileFormType">
+            <argument>%fos_user.model.user.class%</argument>
+            <tag name="form.type" alias="extranet_profile" />
+        </service>
+
+        <service id="extranet.profile.form.handler.default" class="Eros\ExtranetBundle\Form\Handler\ProfileFormHandler" scope="request">
+            <argument type="service" id="extranet.profile.form" />
+            <argument type="service" id="request" />
+            <argument type="service" id="fos_user.user_manager" />
+        </service>
+
+
+        <service id="extranet.add.promocion.form" factory-method="create" factory-service="form.factory" class="Symfony\Component\Form\Form">
+            <argument>extranet_add_promocion</argument>
+        </service>
+
+        <service id="extranet.add.promocion.form.type" class="Eros\ExtranetBundle\Form\Type\PromocionType">
+            <argument>\Eros\ExtranetBundle\Form\Model\Promocion</argument>
+            <tag name="form.type" alias="extranet_add_promocion" />
+        </service>
+
+        <service id="extranet.add.promocion.form.handler.default" class="Eros\ExtranetBundle\Form\Handler\PromocionFormHandler" scope="request">
+            <argument type="service" id="extranet.add.promocion.form" />
+            <argument type="service" id="request" />
+        </service>
+
+         <service id="extranet.articulo.form" factory-method="create" factory-service="form.factory" class="Symfony\Component\Form\Form">
+            <argument>ArticuloForm</argument>
+        </service>
+
+        <service id="extranet.articulo.form.type" class="Eros\ExtranetBundle\Form\Type\ArticuloType">
+            <argument>\Eros\ExtranetBundle\Form\Model\Articulo</argument>
+            <argument type="service" id="eros.utilidades"/>
+            <tag name="form.type" alias="ArticuloForm" />
+        </service>
+
+        <service id="extranet.articulo.form.handler.default" class="Eros\ExtranetBundle\Form\Handler\ArticuloFormHandler" scope="request">
+            <argument type="service" id="extranet.articulo.form" />
+            <argument type="service" id="request" />
+        </service>
+
+    </services>
+
+</container>

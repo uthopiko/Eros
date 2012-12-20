@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title></title>
+	{% stylesheets 'bundles/erosfrontend/css/eros.css' filter='cssrewrite' %}
+		<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+	{% endstylesheets %}
+	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jQuery.main.js') }}"></script>
+</head>
+
+
+<body>
+<div class="modalDialog" role="dialog" data-modal="modalLogin">
+    <header role="header" class="diagonalBackground">
+    <h5 data-header="loginUser">Escriba sus datos de usuario</h5>
+    </header>
+	<form action="{{ path('fos_user_security_check') }}" class="contactUs" name="login_user" role="form" method="post">
+	    <fieldset>
+	        <label for="usuario">Usuario</label>
+	        <input type="text" name="_username">
+	        <label for="password">Contraseña</label>
+	        <input type="password" name="_password">
+	         <label for="recovery_password">Escribe tu e-mail y te enviaremos tu contraseña</label>
+	        <input type="text" name="recovery_password">
+	        <menu class="btnsActions" role="menu" data-menu="submitOptions">
+	        <button type="submit" title="guardar cambios" role="button" data-action="login">Iniciar sesión</button>
+	        </menu>
+	    </fieldset>
+	 </form>
+    <ul class="moreInfo" role="list">
+        <li><a title="suscríbete a tucut" href="page/suscribe" role="link" rel="prefetch bookmark">Regístrate en Tucut</a></li>
+        <li><a title="recuperar la contraseña" href="#" role="link" rel="nofollow" data-link="recoveryPassword">¿Has olvidado la contraseña?</a></li>
+    </ul>
+    <p>También puedes iniciar sesión como usuario de:</p>
+   <menu class="socialNetwork static menubar" role="menu" data-menu="socialNetwork">
+           <a id="fb-login" title="compartir en Facebook" class="facebook" onclick='facebookLogin()' style="display:block;" href="#">Facebook</a>
+           <a title="compartir en Google Plus" class="googlePlus" href="#" role="link" rel="external nofollow" target="blank">Google Plus</a>
+           <a title="compartir en Twitter" class="twitter" href="#" role="link" rel="external nofollow" target="blank">Twitter</a>    
+   </menu>
+  <a title="cerrar cuadro de diálogo" href="#" rel="nofollow" data-close="modal">X</a>    
+</div>
+<header class="header" role="header">
+    <menu class="userOptions" role="menubar" data-menu="userOptions">
+        <a title="pulse para mostrar las opciones de usuario" href="#" role="link" data-slide="filterUserOptions" data-action="expand" id="menu">Nombre de Usuario - {{ app.user is none ? 'Invitado' : app.user.username }}</a>
+        <ul class="menuSecundary" role="list">
+                {% if is_granted('ROLE_USER') %}
+                	 <li><a title="profile" href="{{ path('fos_user_security_logout')}}" rel="nofollow">Perfil</a></li>
+                	 <li><a title="logout" href="{{ path('fos_user_security_logout')}}" rel="nofollow">Logout</a></li>
+                {% else %}
+                	 <li><a title="login" href="#" rel="nofollow" data-open="modalLogin">Login</a></li>
+                	 <li><a title="Register" href="{{ path('_profile_register_user')}}" rel="nofollow">Registrar como Usuario</a></li>
+                	 <li><a title="Register" href="{{ path('_profile_register')}}" rel="nofollow">Registrar como Empresa</a></li>
+                {% endif %}
+                	
+        </ul>
+    </menu> 
+</header>
+<nav></nav>
+<div id="titulo">
+	<span id="superior">EROS - I</span><br />
+	<span id="slogan">TU CENTRO DE COMPRAS ON-LINE</span>
+	<form action="#" class="search" name="busca_pelicula" data-form="buscaPelicula" method="post" role="form">
+	    <label for="titulo">
+	        <menu class="menu" role="menubar" data-menu="filterSearch">
+	            <a title="search" href="#" role="link" data-slide="listFilter" data-field="All">Search</a>
+	            <menu class="menuSecundary" role="list" data-menu="optionsSearch">
+	                  <button title="Empresa" role="button" data-action="OptionSearch" data-field="Empresa">Empresa</button>
+	                  <button title="Producto" role="button" data-action="OptionSearch" data-field="Product">Producto</button>
+	                  <button title="Articulo" role="button" data-action="OptionSearch" data-field="Article">Articulo</button>
+	                  <button title="Categoria" role="button" data-action="OptionSearch" data-field="Category">Categoria</button>
+	                  <button title="Cualquiera" role="button" data-action="OptionSearch" data-field="All">Cualquiera</button>
+	            </menu>
+	        </menu>
+	    </label>
+   		<input type="text" name="titulo" id="searchPattern" placeholder="Busque lo que necesite" role="search">
+	</form>   
+</div>
+<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+</body>
+
+</html>

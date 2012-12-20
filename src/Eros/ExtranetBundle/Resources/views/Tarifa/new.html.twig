@@ -1,0 +1,32 @@
+<script type="text/javascript">
+$("#form_2").submit(function(){
+    $.post("{{ path('_tarifas_create')}}",$(this).serializeArray(),function(respuesta){
+        if(respuesta.code){
+            $.post(Routing.generate('_tarifas_list'),function(respuesta){
+                    $("#Content").html(respuesta);
+                    //alert("El dato fue creado");
+
+            });
+        }else{
+            alert("El no fue creado");
+        }
+    });
+    return false;
+});
+</script>
+<h2>Crear Tarifas nuevas</h2>
+
+<form id="form_2" action="{{ path('_tarifas_create') }}" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <p>
+        <button type="submit">Create</button>
+    </p>
+</form>
+
+<ul class="record_actions">
+    <li>
+        <a href="{{ path('_tarifas_list') }}">
+            Back to the list
+        </a>
+    </li>
+</ul>

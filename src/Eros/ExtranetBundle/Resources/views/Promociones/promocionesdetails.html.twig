@@ -1,0 +1,72 @@
+{% extends "ErosExtranetBundle::layout.html.twig" %}
+
+{% block content %}
+{% javascripts '@ErosExtranetBundle/Resources/public/js/jquery.kalendar.min.js'
+				 output='erosextranet/js/compiled/kalendar.js'%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+<link rel="stylesheet" href="{{ asset('bundles/erosextranet/css/kalendar.css') }}" type="text/css" media="all" />
+<script language="javascript" type="text/javascript">
+	$(document).ready(function(){
+			$("#PromocionType_TipoPromocion").change(function(){
+				if($("#PromocionType_TipoPromocion").val()==1){
+					$.post("{{ path('_select_tipodescuento_ajax')}}",function(respuesta){
+						$("#PromocionType_TipoDescuento").css("display","block");
+						$("#PromocionType_Descuento").css("display","block");
+						$("#tablapromocionesdetails").css("display","none");
+						$("label[for='PromocionType_TipoDescuento']").css("display","block");
+						$("label[for='PromocionType_Descuento']").css("display","block");
+						$("#PromocionType_TipoDescuento").html(respuesta);
+					});
+				}else{
+					$("label[for='PromocionType_TipoDescuento']").css("display","none");
+					$("#PromocionType_TipoDescuento").css("display","none");
+					$("label[for='PromocionType_Descuento']").css("display","none");
+					$("#PromocionType_Descuento").css("display","none");
+					$("#tablapromocionesdetails").css("display","block");
+				}
+				});
+			
+			$(".calendar").kalendar();
+	});
+</script>
+
+ <div id="formulario">
+   <form action="{{ path('_promociones_details',{'PidPromocion' : '1'}) }}" method="POST" {{ form_enctype(form) }} id="promociones_form">
+		<div class="columna1">
+		{{ form_errors(form) }}
+		{{ form_label(form.Nombre) }}
+		{{ form_widget(form.Nombre,{'value':promocion.nombre}) }}
+		{{ form_label(form.Descripcion) }}
+		{{ form_widget(form.Descripcion,{'value':promocion.descripcion}) }}
+		{{ form_label(form.FechaInicio) }}
+		{{ form_widget(form.FechaInicio,{'value':promocion.fechainicio})}}
+		{{ form_label(form.FechaFin) }}
+		{{ form_widget(form.FechaFin,{'value':promocion.fechafin})}}
+		{{ form_label(form.EstadoPromocion) }}
+		{{ form_widget(form.EstadoPromocion) }}
+		{{ form_label(form.TipoPromocion) }}
+		{{ form_widget(form.TipoPromocion) }}
+		{% if promocion.tipopromocion == 1 %}
+			{% set style = "display:block" %}
+			{% set style_table = "display:none" %}
+		{% else %}
+			{% set style = "display:none" %}
+			{% set style_table = "display:block" %}
+		{% endif %}
+		{{ form_label(form.TipoDescuento,'Tipo de descuento',{'attr':{'style':style}}) }}
+		{{ form_widget(form.TipoDescuento,{'attr':{'style':style}}) }}
+		{{ form_label(form.Descuento,'Descuento',{'attr':{'style':style}}) }}
+		{{ form_widget(form.Descuento,{'value':promocion.descuento,'attr':{'style':style}})}}
+
+		{{ form_widget(form._token)}}
+		</div>
+		<input type="submit" value="Guardar Promocion" class="second" />
+	</form>
+ </div>
+ <br><p>
+ <div id="tablapromocionesdetails" style="{{style_table}}">
+{% include 'ErosExtranetBundle:Promociones:include/articulospromo.inc.html.twig' %}
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{# src/Cupon/OfertaBundle/Resources/views/Default/portada.html.twig #}
+{% extends "::layout.html.twig" %}
+{% block title %}Eros, Tu sitio de compras. Aqui encontraras las ofertas, promociones, eventos y productos de tus establecimientos preferidos.{% endblock %}
+
+
+{% block id 'portada' %}
+
+{% block article %}
+{% set cont = 0 %}
+{% for oferta in ofertas %}
+{% include 'ErosFrontendBundle:Default:include/minioferta.html.twig' %}
+{% set cont = cont + 1 %}
+{% endfor %}
+{% endblock %}

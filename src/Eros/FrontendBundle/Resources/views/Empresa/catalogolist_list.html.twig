@@ -1,0 +1,118 @@
+{% extends "ErosFrontendBundle::layout.html.twig" %}
+
+{% block content %}
+<div class="modalDialog" role="dialog" data-modal="modalPedido" id="modalPedido">
+    <header role="header" class="diagonalBackground">
+    <h5 data-header="loginUser">Pedido</h5>
+    </header>
+    <form action="#" class="contactUs" name="order" role="form" method="post">
+        <fieldset>
+            <label for="pedidos">Nº Elementos</label>
+            <input type="text" name="pedidos" id="txtNumeroElementos">
+            <menu class="btnsActions" role="menu" data-menu="submitOptions">
+            <button type="submit" title="guardar cambios" role="button" data-action="Pedido">Realizar Pedido</button>
+            </menu>
+        </fieldset>
+     </form>
+    <p>Desea compartirlo con alguna red social?:</p>
+   <menu class="socialNetwork static menubar" role="menu" data-menu="socialNetwork">
+           <a id="fb-login" title="compartir en Facebook" class="facebook" onclick='facebookLogin()' style="display:block;" href="#">Facebook</a>
+           <a title="compartir en Google Plus" class="googlePlus" href="#" role="link" rel="external nofollow" target="blank">Google Plus</a>
+           <a title="compartir en Twitter" class="twitter" href="#" role="link" rel="external nofollow" target="blank">Twitter</a>    
+   </menu>
+  <a title="cerrar cuadro de diálogo" href="#" rel="nofollow" data-close="modal">X</a>    
+</div>
+<div class="modalDialog" role="dialog" data-modal="modalCliente" id="modalCliente">
+    <header role="header" class="diagonalBackground">
+    <h5 data-header="loginUser">Clientes</h5>
+    </header>
+    <form action="#" class="contactUs" name="cliente" role="form" method="post">
+        ¿Desea hacerse cliente de esta empresa?
+         <menu class="btnsActions" role="menu" data-menu="submitOptions">
+            <button type="button" title="Hacerse Cliente" role="button" data-action="Cliente">Hacerse Cliente</button>
+            <button type="button" title="Cancelar" role="button" data-action="Cliente">Cancelar</button>
+        </menu>
+     </form>
+    <p>Esto permitira que reciba promociones y descuentos de la empresa seleccionada</p>
+  <a title="cerrar cuadro de diálogo" href="#" rel="nofollow" data-close="modal">X</a>    
+</div>
+<div id="content">
+    <div id="menu_lateral">
+        <aside class="menu_lateral">
+            <ul>
+                <li>Categorias</li>
+            </ul>
+            <ul>
+                <li>Categorias</li>
+            </ul>
+            <ul>
+                <li>Categorias</li>
+            </ul>
+        </aside>
+    </div>
+    <article>
+        {%  if  app.session.hasFlash('articulos')  %}
+        <div class="flash-aviso">
+                   Mensaje: {{  app.session.flash('articulos')  }}
+        </div>
+        {%  else  %}
+            {% for articulo in articulos %}
+            {% if articulo.precio_descuento %}
+                {% set articulo_precio = articulo.precio_descuento %}
+            {% else %}
+                {% set articulo_precio = articulo.precio %}
+            {% endif %}
+            <div class="prod_box_big">           
+                     <div class="product_img"><a href="{{path('articulo_details',{'PidArticulo':articulo.pidarticulo})}}">
+                        {% if articulo.imagen is none %}
+                            {% set rutaimagen = 'bundles/erosfrontend/images/EmptyImage.jpg' %}
+                            <img src="{{ rutaimagen | imagine_filter('thumb_frontend') }}" />
+                        {% else %}
+                            {% set rutaimagen = 'uploads/productos/' ~ articulo.imagen %}
+                            <img src="{{ rutaimagen | imagine_filter('thumb_frontend') }}" />
+                        {% endif %}
+                        </a>
+                    </div>
+                     <div class="product_info">
+                        <div class="articlemeta">
+                        	<span class="ArticuloNombre"> Articulo: {{articulo.nombre}}</span><br />
+	                        <span class="ArticuloNombre"> Empresa: {{articulo.nombreempresa}}</span><br />
+	                        <span class="ArticuloNombre"> Precio: 
+	                        {% if articulo.precio_descuento %}
+	                            {{ articulo.precio_descuento | number_format(2, '.', ',')}} €/{{articulo.precio}} €
+	                        {% else %}
+	                            {{articulo.precio}} €
+	                        {% endif %}
+	                        </span><br />
+                        	<span class="ArticuloNombre">Descripcion: {{articulo.nombre}}</span><br />
+                        	<span class="ArticuloNombre">Medidas: {{articulo.unidadmedida}}</span><br />
+                        </div>
+                        <a href="#" id="pedido_btn" class="modal-popup" data-id="{{articulo.pidarticulo}}" data-precio="{{articulo_precio}}" data-open="modalPedido"><img src="{{ asset('bundles/erosfrontend/images/cart.gif')}}" alt=""  title="" border="0" class="left_bt" /></a><br>
+                    {% if is_granted('ROLE_USER') %} 
+                        {% if clientes | length == 0 or articulo.empresaid not in clientes %}
+                            {% set style_add= 'display:block;padding-top:10px;padding-bottom:10px;' %}
+                            {% set style_delete= 'display:none' %}
+                        {% else %}
+                            {% set style_add= 'display:none' %}
+                            {% set style_delete= 'display:block;padding-top:10px;padding-bottom:10px;' %}
+                        {% endif %}
+                        <a href="#" title="header=[Convertir en cliente]"  data-empresa="{{articulo.empresaid}}" id="cliente_btn" class="modal-popup_add cliente{{articulo.empresaid}}_add_link" style="{{style_add}}" data-open="modalCliente">
+                        	<img id="cliente_img" src="{{ asset('bundles/erosfrontend/images/cliente_add.png')}}" alt="" title="" border="0" class="left_bt" /></a>
+                    
+                         <a href="#" title="header=[Convertir en cliente]"  data-cliente="{{articulo.empresaid}}" id="cliente_btn"  class="modal-popup_delete cliente{{articulo.empresaid}}_delete_link" style="{{style_delete}}" data-open="modalCliente">
+                         	<img id="cliente_img" src="{{ asset('bundles/erosfrontend/images/cliente_delete.png')}}" alt="" title="" border="0" class="left_bt" /></a>
+                    
+                        {% endif %}
+                        <a href="details.html" id="details_btn" class="prod_details">details</a> 
+
+                     </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </article>
+</div>
+
+</body>
+
+</html>
+{% endblock %}

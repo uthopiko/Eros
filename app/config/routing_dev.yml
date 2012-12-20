@@ -1,0 +1,90 @@
+ErosFrontendBundle:
+    resource: "@ErosFrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /frontend
+ErosExtranetBundle:
+    resource: "@ErosExtranetBundle/Controller/"
+    type:     annotation
+    prefix:   /extranet
+ErosBackendBundle:
+    resource: "@ErosBackendBundle/Controller/"
+    type:     annotation
+    prefix:   /backend
+ErosCartBundle:
+    resource: "@ErosCartBundle/Controller/"
+    type:     annotation
+    prefix:   /cart
+_cart:
+    resource: "@ErosCartBundle/Controller/CartController.php"
+    type:     annotation
+    prefix:   /cart/
+_backend_default:
+    resource: "@ErosBackendBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix:   /backend/default
+_backend_sql:
+    resource: "@ErosBackendBundle/Controller/SqlController.php"
+    type:     annotation
+    prefix:   /backend/sql
+_mercado:
+    resource: "@ErosExtranetBundle/Controller/MercadoController.php"
+    type:     annotation
+    prefix:   /extranet/mercado
+_default:
+    resource: "@ErosFrontendBundle/Controller/DefaultController.php"
+    type:     annotation
+    prefix:   /default
+_tarifas:
+    resource: "@ErosExtranetBundle/Controller/TarifaController.php"
+    type:     annotation
+    prefix:   /extranet/tarifa
+_promocion:
+    resource: "@ErosExtranetBundle/Controller/PromocionController.php"
+    type:     annotation
+    prefix:   /extranet/promociones
+_catalogo:
+    resource: "@ErosExtranetBundle/Controller/CatalogoController.php"
+    type:     annotation
+    prefix:   /extranet/catalogo
+_empresa:
+    resource: "@ErosFrontendBundle/Controller/EmpresaController.php"
+    type:     annotation
+    prefix:   /frontend/empresa
+_profile_extranet:
+    resource: "@ErosExtranetBundle/Controller/ProfileController.php"
+    type:     annotation
+    prefix:   /extranet/profile
+_profile_frontend:
+    resource: "@ErosFrontendBundle/Controller/ProfileController.php"
+    type:     annotation
+    prefix:   /profile
+_importacion:
+    resource: "@ErosExtranetBundle/Controller/ImportacionController.php"
+    type:     annotation
+    prefix:   /extranet/importacion
+_assetic:
+    resource: .
+    type:     assetic
+_wdt:
+    resource: "@WebProfilerBundle/Resources/config/routing/wdt.xml"
+    prefix:   /_wdt
+_profiler:
+    resource: "@WebProfilerBundle/Resources/config/routing/profiler.xml"
+    prefix:   /_profiler
+_configurator:
+    resource: "@SensioDistributionBundle/Resources/config/routing/webconfigurator.xml"
+    prefix:   /_configurator
+_main:
+    resource: routing.yml
+sonata:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin
+
+_imagine:
+    resource: .
+    type:     imagine

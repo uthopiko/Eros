@@ -1,0 +1,95 @@
+{% extends "ErosExtranetBundle::layout.html.twig" %}
+
+{% block content %}
+<script type="text/javascript" class="showcase">
+$(function(){
+    $.contextMenu({
+        selector: '.clicka', 
+        callback: function(key, options) {
+            var m = "clicked: " + key;
+            window.console && console.log(m) || alert(m); 
+        },
+        items: {
+            "edit": {name: "Editar", icon: "edit"},
+            "delete": {name: "Borrar", icon: "delete"},
+        }
+    });
+	$('#listas').click(function() {
+		/*$.post("{{ path('extranet_catalogo_icon')}}", function(respuesta){
+				$("#tablon").html(respuesta);
+		});*/
+		$('#tablon_list').css("display","block");
+		$('#tablon_iconos').css("display","none");
+		return false;
+	});
+	$('#iconos').click(function() {
+		/*$.post("{{ path('extranet_catalogo_list')}}", function(respuesta){
+				$("#tablon").html(respuesta);
+		});*/
+		$('#tablon_list').css("display","none");
+		$('#tablon_iconos').css("display","block");
+		return false;
+	});
+
+	$("select[multiple=multiple]").multiselect({
+		selectedList: 2,
+	});
+});
+</script>
+<style type="text/css">
+		#gallery { width:350px; list-style-type: none; margin:0px; padding:0px; }
+		#gallery li { float:left; padding:5px; width:100px; height:100px; }
+		#gallery li div { width:90px; height:50px; border:solid 1px black; background-color:#E0E0E0; text-align:center; padding-top:40px; }
+		.placeHolder div { background-color:white!important; border:dashed 1px gray !important; }
+		#formulario{position: absolute;}
+		#tablon{    border: 0px solid black;
+			height: 100%;
+			position: relative;
+			width: 330px;}
+</style>
+
+{% form_theme form 'ErosExtranetBundle:Twig:new_widget.html.twig' %}
+ <div id="formulario">
+   <form action="{{ path('_catalogo') }}" method="POST" {{ form_enctype(form) }} id="articulo_form">
+		{{ form_errors(form) }}
+		{{ form_row(form.Nombre) }}
+		{{ form_row(form.Precio) }}
+		{{ form_row(form.Medidas) }}
+		{{ form_row(form.Stock) }}
+		{{ form_row(form.description) }}
+		{{ form_row(form.imagen) }}
+		{% if(is_granted('ROLE_PROVEEDOR')) %}
+			{{ form_row(form.PorMayor) }}
+			{{ form_row(form.PorMenor) }}
+		{% endif %}
+		{{ form_row(form.categoria) }}
+		{{ form_row(form._token) }}
+		{{ form_row(form.pidarticulo) }}
+
+		<input type="submit" value="Agregar Catalogo" class="symfony-button-grey" />
+	</form>
+ </div>
+ <div class="block panel">
+ 	<div class="front">
+	 	<div style="text-align:right">
+			 <a href="#" class="btn contentLink" id="iconos"><i class="icon-th"></i></a>
+			 <a href="#" class="btn contentLink" id="listas"><i class="icon-th-list"></i></a>
+		 </div>
+		<div id="tablon">
+			 <div id="tablon_iconos">
+				{% include 'ErosExtranetBundle:Catalogo:include/catalogo_iconos.inc.html.twig' %}
+			</div>
+			<div id="tablon_list" style="display:none">
+				{% include 'ErosExtranetBundle:Catalogo:include/catalogo_lista.inc.html.twig' %}
+			</div>
+		</div>
+	</div>
+	<div class="back">
+		
+	</div>
+		
+	</div>
+</div>
+
+{% endblock %}
+

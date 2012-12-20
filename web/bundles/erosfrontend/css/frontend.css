@@ -1,0 +1,18 @@
+﻿
+label{    
+	clear: left;
+    float: left;
+    font-size: 12px;
+}
+input{
+	clear: left;
+    float: left;
+}
+select{
+	clear: left;
+    float: left;
+}
+textarea{
+	clear: left;
+    float: left;
+}

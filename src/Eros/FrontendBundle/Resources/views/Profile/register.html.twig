@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title></title>
+	{% stylesheets 'bundles/erosfrontend/css/eros.css' filter='cssrewrite' %}
+		<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+	{% endstylesheets %}
+	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>
+	
+	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jQuery.main.js') }}"></script>
+</head>
+
+
+<body>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#form_2").submit(function(){
+    	_username = $("#frontend_register_bussiness_username").val();
+		_password = $("#frontend_register_bussiness_password_first").val();
+        $.ajax({
+        	url:"{{ path('_profile_register')}}",
+        	type:"POST",
+        	data:$(this).serializeArray(),
+        	success: function(data){
+        		if (data.statusCode == 0) {
+        			$.ajax({
+        				url: "{{ path('fos_user_security_check') }}",
+        				data: "_username=" + _username + "&_password=" + _password,
+        				type: "POST",
+        				success: function(){
+        					window.location.href = "/";
+        				},
+        				error: function (){
+        					alert('Error al loguearte');
+        				}
+        			});
+        		}
+        		else {
+        			alert('No Registrado');
+        		}
+        	},
+        	error: function(xhr){
+        		alert(xhr);
+        	}
+        });
+    return false;
+    });
+});
+</script>
+<div class="modalDialogNew" role="dialog" data-modal="modalLogin" style="display:block">
+    <header role="header" class="diagonalBackground">
+    <h5 data-header="loginUser">Registrese como Empresa</h5>
+    </header>
+	<form id="form_2" action="{{ path('_profile_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_profile_edit contactUs form-med">
+	    	<fieldset>
+	    		<div class="first formWrapper">
+		
+		    		{{ form_errors(form)}}
+		    		{{form_widget(form)}}
+		    		{{form_rest(form)}}
+			        <menu class="btnsActions" role="menu" data-menu="submitOptions">
+			        <button type="submit" title="guardar cambios" role="button" data-action="login">Iniciar sesión</button>
+			        </menu>
+		    	</div>
+		    	<div class="second">
+					<label>Especificaciones</label>
+					<textarea name="specs"></textarea>
+				</div>
+		    </fieldset>
+		 </form>
+	
+  <!--<a title="cerrar cuadro de diálogo" href="#" rel="nofollow" data-close="modal">X</a>    -->
+</div>
+</body>
+
+</html>

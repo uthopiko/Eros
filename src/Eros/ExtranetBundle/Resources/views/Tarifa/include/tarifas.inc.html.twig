@@ -1,0 +1,97 @@
+<script type="text/javascript">
+$(document).ready(function(){
+
+$("#dialog").css('display',"none");
+var height=$(window).height()*0.70;
+var width=$(window).width()*0.60;
+var height2=$(window).height()*0.70;
+var width2=$(window).width()*0.60;
+$("#articulos").css('height',height*0.70);
+$("#articulosvinculados").css('height',height*0.70);
+function dialog(tarifa,action,mensaje){
+    $.fx.speeds._default = 2000;
+
+    $("#dialog").dialog({
+            resizable: false,
+            height:height,
+            width:width,
+            modal: true,
+            show: "highlight",
+            hide: "highlight",
+            buttons: {
+                Aceptar: function() {
+                    var iddialog = $(this);
+                    /*$.post(Routing.generate(action,{'PidEmpresa' : empresa}),function(respuesta){
+                            $("#dialog").html(mensaje);
+                            var id = ".cliente" + empresa + "_add_link";
+                            var id2 = ".cliente" + empresa + "_delete_link";
+                            if(action == '_add_empresa_cliente'){
+                                $(id).css("display","none");
+                                $(id2).css("display","block");
+                            }else{
+                                $(id).css("display","block");
+                                $(id2).css("display","none");
+                            }
+                            $(".ui-dialog-buttonset").css("display","none");
+                            iddialog.dialog("close");
+                        });*/
+                },
+                Cancelar: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+}
+
+$(".modal-popup").live("click",function() {
+			$.post(Routing.generate('_tarifa_articulos',{Tarifa:$(this).data("tarifa")}),function(respuesta){
+			    var html1="<ul>";
+                var html2="<ul>";
+                $.each(respuesta['rows_vinc'], function(index, value) {
+                       html1+="<li value='"+index+"'>"+value+"</li>";
+                });
+                html1+="</ul>";
+                $.each(respuesta['rows_no_vinc'], function(index, value) {
+                       html2+="<li value='"+index+"'>"+value+"</li>";
+                });
+                html2+="</ul>";
+                $("#articulos").html(html1);
+			   	$("#articulosvinculados").html(html2);
+                 dialog($(this).data("tarifa"),'_add_empresa_cliente','');
+                return false;
+   			 });
+        });
+
+});
+</script>
+<center>
+			<!-- tables inside this DIV could contain drag-able content  -->
+				<table class="table table-striped table-bordered table-condensed">
+					<tbody>
+						<tr>
+							<td>Tarifas</td>
+							<td>Limite Menor</td>
+							<td>Limite Mayor</td>
+							<td>Descuento</td>
+							<td></td>
+							<td></td>
+						</tr>
+						{% set promocion = 0 %}
+						{% for tarifa in tarifas %}
+						<tr class="rl">
+							<td><label id="lblTarifa{{tarifa.id}}">{{tarifa.tarifa}}</label></td>
+							<td><label id="lblTarifa{{tarifa.id}}">{{tarifa.limitemenor}}</label></td>
+							<td><label id="lblTarifa{{tarifa.id}}">{{tarifa.limitemayor}}</label></td>
+							<td><label id="lblTarifa{{tarifa.id}}">{{tarifa.descuento}}</label></td>
+							<td><a class="btn-mini modal-popup" data-tarifa="{{tarifa.id}}" href="#">Ver articulos&raquo;</a></td>
+							<td><a class="btn-mini" href="#">Ver detalle&raquo;</a></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+</center>
+<div id="dialog" style="display:none" title="Hacerte Cliente de la empresa">
+   <div class='row'><div class='span3' id="articulos" style='border:1px solid black'>
+   </div><div class='span1'>&nbsp;</div><div class='span3' id="articulosvinculados" style='border:1px solid black'></div>
+</div>

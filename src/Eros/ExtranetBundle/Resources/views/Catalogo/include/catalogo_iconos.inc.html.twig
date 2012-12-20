@@ -1,0 +1,16 @@
+<ul id="gallery">
+                {% for articulo in articulos %}
+                        <li data-order='{{articulo.orden}}' data-itemid='{{articulo.pidarticulo}}'>
+                            <div data-itemid='{{articulo.pidarticulo}}' class="clicka">{{articulo.nombre}}</div>
+                        </li>
+                {% endfor %}
+ </ul>
+ <script type="text/javascript" src="{{ asset('bundles/erosextranet/js/jquery.dragsort-0.5.0.min.js') }}"></script> 
+		<script type="text/javascript">
+		    $("#gallery").dragsort({ dragSelector: "div", dragEnd: saveOrder, placeHolderTemplate: "<li class='placeHolder'><div></div></li>" });
+
+		    function saveOrder() {
+				var data = $("#gallery li").map(function() { return $(this).data("itemid"); }).get();
+		        $.post("{{ path('_save_orden') }}", { "ids[]": data });
+		    };
+	    </script>

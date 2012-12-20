@@ -1,0 +1,27 @@
+{% block content %}
+<div class="center_title_bar">Latest Products</div>
+    {% for articulo in articulos %}
+    	<div class="prod_box">
+        	<div class="top_prod_box"></div>
+            <div class="center_prod_box">            
+                 <div class="product_title"><a href="details.html">{{ articulo.Nombre }}</a></div>
+                 <div class="product_img"><a href="details.html"><img src="{{ asset('bundles/erosfrontend/images/laptop.gif')}}" alt="" title="" border="0" /></a></div>
+                 <div class="prod_price"><span class="reduce">{{ articulo.precio }}</span> <span class="price">{{ descuento(articulo.pidarticulo,articulo.precio, 1) }}</span></div>                        
+            </div>
+            <div class="bottom_prod_box"></div>             
+            <div class="prod_details_tab">
+            <a href="#" title="header=[Añadir a la compra] body=[&nbsp;] fade=[on]" class="modal-popup" data-id="{{articulo.pidarticulo}}"><img src="{{ asset('bundles/erosfrontend/images/cart.gif')}}" alt="" title="" border="0" class="left_bt" /></a>
+            {% if is_granted('ROLE_USER') %} 
+                {% if clientes | length == 0 or articulo.empresa.id not in clientes %}
+                    <a href="#" title="header=[Convertir en cliente]"  data-cliente="{{articulo.empresa.id}}" class="modal-popup_add cliente{{articulo.empresa.id}}_add_link"><img id="cliente_img" src="{{ asset('bundles/erosfrontend/images/cliente_add.png')}}" alt="" title="" border="0" class="left_bt" /></a>
+                {% else %}
+                     <a href="#" title="header=[Convertir en cliente]"  data-cliente="{{articulo.empresa.id}}" class="modal-popup_delete cliente{{articulo.empresa.id}}_delete_link"><img id="cliente_img" src="{{ asset('bundles/erosfrontend/images/cliente_delete.png')}}" alt="" title="" border="0" class="left_bt" /></a>
+                {% endif %}
+            {% endif %}
+            <a href="#" title="header=[Gifts] body=[&nbsp;] fade=[on]"><img src="{{ asset('bundles/erosfrontend/images/favorites.gif')}}" alt="" title="" border="0" class="left_bt" /></a>           
+            <a href="details.html" class="prod_details">details</a>            
+            </div>                     
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

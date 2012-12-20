@@ -1,0 +1,14 @@
+{% block content %}
+<div class="title_box accordion-heading-sin-js"><span class="accordion-toggle-sin-js">Sub-Categorias</span></div>
+<ul class="left_menu unstyled">
+		{% set cont = 1 %}
+		{% for item in items %}
+			{% if cont%2 == 0 %}
+				<li class="odd subcategoria" data-subcategoria="{{item.id}}"><a href="#">{{ item.subcategoria }}</a></li>
+			{% else %}
+				 <li class="even subcategoria" data-subcategoria="{{item.id}}"><a href="#">{{ item.subcategoria }}</a></li>
+			{% endif %}
+		{% set cont = cont + 1 %}
+		{% endfor %}
+        </ul> 
+{% endblock %}

@@ -1,0 +1,43 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_manager
+
+    firewalls:
+       main:
+        pattern:     /
+        form_login:
+            provider:      fos_userbundle
+            login_path:     /login
+            use_forward:    false
+            check_path:     /login_check
+            failure_path:  null
+            always_use_default_target_path: false
+            default_target_path:   /
+            target_path_parameter:  _target_path
+            use_referer:   false
+        logout:      true
+        anonymous:    true
+
+
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/demo, role: ROLE_USER }
+        - { path: ^/empresa, role: ROLE_USER }
+        - { path: ^/cart, role: ROLE_USER }
+        - { path: ^/producto/details, role: ROLE_USER }
+        - { path: ^/extranet, role: ROLE_BUSSINESS }
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_ADMIN
+        ROLE_SUPER_ADMIN: ROLE_SUPER_ADMIN
+        ROLE_EMPRESA:     ROLE_BUSSINESS
+        ROLE_USUARIO:     ROLE_USER
+        ROLE_PROVEEDOR:   ROLE_PROVEEDOR

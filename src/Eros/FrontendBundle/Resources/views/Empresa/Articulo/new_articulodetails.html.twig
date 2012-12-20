@@ -1,0 +1,84 @@
+{# src/Cupon/OfertaBundle/Resources/views/Empresa/list.html.twig #}
+{% extends "ErosFrontendBundle::layout.html.twig" %}
+
+{% block content %}
+{%  if  app.session.hasFlash('notice')  %}
+	<div class="flash-aviso">
+        Mensaje: {{  app.session.flash('notice')  }}
+    </div>
+{%  else  %}
+<div id="content">
+
+<article>
+	<div class="details_articulo_imagen" style="float:left;">
+		{% set rutaimagen = 'uploads/productos/' ~ articulo.imagen %}
+		<img src="{{ rutaimagen | imagine_filter('thumb_medium') }}" /><br>
+	</div>
+
+	<div class="details_articulo_info">
+		Nombre: {{articulo.nombre}} <br>
+		Stock: {{articulo.stock}} <br>
+		Categoria {{articulo.producto.subcategoria.categoria.categoria}} -> {{articulo.producto.subcategoria.subcategoria}} -> {{articulo.producto.nombre}} <br>
+		Descripcion: {{articulo.description}}
+ 	</div> 
+
+</article>
+<div id="tabs" class="details_articulo_tabs">
+	<section class="tabs">
+        <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" checked="checked" />
+        <label for="tab-1" class="tab-label-1">Especificaciones</label>
+
+        <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" />
+        <label for="tab-2" class="tab-label-2">Envio</label>
+
+        <input id="tab-3" type="radio" name="radio-set" class="tab-selector-3" />
+        <label for="tab-3" class="tab-label-3">Observaciones</label>
+            
+	<div class="clear-shadow"></div>
+	<div class="content">
+        <div class="content-1">
+			<table border = "0">
+			<tr>
+				<td colspan="*">Datos del producto</td>
+			</tr>
+			<tr>
+				<td colspan="*">Datos básicos</td>
+			</tr>
+			<tr>
+				<td>Fuente de luz: 	LED</td><td>Tipo: 	Linternas</td>
+			</tr>
+			<tr>
+				<td>Lugar del origen: 	China (continente)</td><td>Marca: 	Brinyte</td>
+			</tr>
+			<tr>
+				<td>Número de Modelo: 	BR-1300L</td><td>Tipo de la batería: 	2*18650 li-ion baterÃ­as</td>
+			</tr>
+			<tr>
+				<td>Bombilla LED: 	5 pedazos Cree LED XR-E Q5</td><td>Certificación: 	Other</td>
+			</tr>
+			<tr>
+				<td>Material: 	T6061-T6 aluminio de grado aeronÃ¡utico</td>
+			</tr>
+			<tr>
+				<td colspan="*">Especificaciones</td>	
+			</tr>
+			<tr>
+				<td>linternal led</td>
+			</tr>
+			<tr>
+				<td>5*Cree XR-E Q5, 100,000horas de vida útil</td>
+			</tr>
+		</table>
+		</div>
+		<div class="content-2">
+			Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T. persona que se dedica a la imprenta) desconocido usó una galería de textos y los mezcló de tal manera que logró hacer un libro de textos especimen. No sólo sobrevivió 500 años, sino que tambien ingresó como texto de relleno en documentos electrónicos, quedando esencialmente igual al original. Fue popularizado en los 60s con la creación de las hojas "Letraset", las cuales contenian pasajes de Lorem Ipsum, y más recientemente con software de autoedición, como por ejemplo Aldus PageMaker, el cual incluye versiones de Lorem Ipsum.
+		</div>
+		<div class="content-3">
+			Lorem Ipsum jest tekstem stosowanym jako przykładowy wypełniacz w przemyśle poligraficznym. Został po raz pierwszy użyty w XV w. przez nieznanego drukarza do wypełnienia tekstem próbnej książki. Pięć wieków później zaczął być używany przemyśle elektronicznym, pozostając praktycznie niezmienionym. Spopularyzował się w latach 60. XX w. wraz z publikacją arkuszy Letrasetu, zawierających fragmenty Lorem Ipsum, a ostatnio z zawierającym różne wersje Lorem Ipsum oprogramowaniem przeznaczonym do realizacji druków na komputerach osobistych, jak Aldus PageMaker
+		</div>
+	</div>
+</section>
+</div>
+</div>
+{% endif %}
+{% endblock %}

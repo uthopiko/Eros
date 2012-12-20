@@ -1,0 +1,33 @@
+<script type="text/javascript">
+$(document).ready(function(){
+	$("tr").dblclick( function () { 
+		alert("Click");
+	});
+});
+</script>
+<center>
+			<!-- tables inside this DIV could contain drag-able content  -->
+				<table class="table table-striped table-bordered table-condensed">
+					<tbody>
+						<tr>
+							<td>Articulo</td>
+							<td>Cliente</td>
+							<td>Nº Elementos</td>
+							<td>Precio</td>
+							<td>Estado</td>
+						</tr>
+						{% set promocion = 0 %}
+						{% for venta in ventas %}
+						<tr class="rl">
+							<td><label id="lblArticulo{{venta.id}}">{{venta.articulo.nombre}}</label></td>
+							<td><label id="lblCliente{{venta.id}}">{{venta.user.username}}</label></td>
+							<td><label id="lblElementos{{venta.id}}">{{venta.numeroarticulos}}</label></td>
+							<td><label id="lblPrecio{{venta.id}}">{{venta.precio}}</label></td>
+							<td><label id="lblPrecio{{venta.id}}">{{venta.sidestadopedido.estadopedido}}</label></td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+</center>
+

@@ -1,0 +1,33 @@
+{% set expirada = oferta.fechafin|date('YmdHis') < 'now'|date('YmdHis') %}
+{% set comprada = comprada|default(false) %}
+{% set fechafin = oferta.fechafin|date('Y,m,d,H,i,s') %}
+
+
+<section class="oferta mini">
+    <div class="descripcion">
+        <h2><a href="#">{{ oferta.nombre }}</a></h2>
+        
+        {{ oferta.descripcion }}
+        
+        {% if not expirada and not comprada %}
+        <a class="boton" href="#">{{ "Comprar" | trans }}</a>
+        {% endif %}
+        
+        <div class="estado {{ expirada ? 'expirada' : '' }} {{ comprada ? 'comprada' : '' }}">
+            {% if comprada %}
+            {% elseif not expirada %}
+            <div class="tiempo" id="tiempo">{{ fechafin | cuenta_atras}}</div>
+            {% else %}
+            Finalizada el {{ oferta.fechafin|date('Y/m/d H:i:s')}}
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="galeria">
+        <img alt="Fotografía de la oferta" src="{{ asset(oferta.imagenpromocional) }}">
+        
+        <p class="precio">2 &euro; <span></span></p>
+        
+        <p>Disfruta de esta oferta en <a href="#">{{ oferta.sidcliente.razonsocial }}</a></p>
+    </div>
+</section>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="http://www.google.com/jsapi"></script><script>google.load("mootools", "1.2.1");</script>	
+	{% javascripts '@ErosFrontendBundle/Resources/public/js/MenuMatic_0.68.3.js'%}
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+	<title>{% block title %}{% endblock %} | Eros</title>
+	 <style type="text/css">
+                #contenedor {
+                        background: #11;
+                        margin: 0 auto 1em;
+                        width: 1000px;
+                        position: relative;
+                        -moz-box-shadow: 0 1px 5px #444;
+                        -webkit-box-shadow: 0 1px 5px #444;
+                        box-shadow: 0 1px 5px #444;
+                }
+                header{
+                        position: relative; 
+                        width: 1000px; 
+                        height: 120px;
+                        margin-bottom: 3em; 
+                        background: none repeat scroll 0pt 0pt #91B5FF;
+                        background: -moz-linear-gradient(top, #91B5FF , #D3E1FF);
+                        background: -webkit-gradient(linear, 0 0, 0 100%, from(#91B5FF),  to(#D3E1FF));
+                }
+		ul{display:table;width:100%;border-spacing:0px 1px;margin-bottom:1em;list-style:none;padding:0px;}
+		li{    
+                        display: table-cell;
+                        position: relative;
+                        width: 250px;}
+		li:first-child{
+			-moz-border-radius:5px 0 0 5px;
+			-webkit-border-radius:5px 0 0 5px;
+			border-radius:5px 0 0 5px;
+		}
+		li:last-child{
+			-moz-border-radius:0 5px 5px 0;
+			-webkit-border-radius:0 5px 5px 0;
+			border-radius:0 5px 5px 0;
+		}
+		li:first-child a{
+			-moz-border-radius:3px 0 0 3px;
+			-webkit-border-radius:3px 0 0 3px;
+			border-radius:3px 0 0 3px;
+		}
+		li:last-child a{
+			-moz-border-radius:0 3px 3px 0;
+			-webkit-border-radius:0 3px 3px 0;
+			border-radius:0 3px 3px 0;
+		}
+		li a{display:block;color:#FFF;text-shadow:0 -1px 1px rgba(0,0,0,.9);text-decoration:none;text-transform:uppercase;text-align:center;padding:15px 10px;position:relative;
+			background:-moz-linear-gradient(top,rgba(255,255,255,.2),rgba(255,255,255,.1) 50%,transparent 50%);
+			background:-webkit-gradient(linear,0 0,0 100%,color-stop(0,rgba(255,255,255,.2)),color-stop(0.5,rgba(255,255,255,.1)),color-stop(0.5,transparent)); 
+			background:-o-linear-gradient(top,rgba(255,255,255,.2),rgba(255,255,255,.1) 50%,transparent 50%);
+			background:linear-gradient(top,rgba(255,255,255,.2),rgba(255,255,255,.1) 50%,transparent 50%);
+			background-color:#000;			
+			-moz-transition-duration:.3s;
+			-webkit-transition-duration:.3s;
+			-o-transition-duration:.3s;
+			transition-duration:.3s;
+		}
+		a:hover,a:focus{background-color:#525564;		
+		}
+		a:after{content:" ";height:5px;position:absolute;bottom:3px;left:5px;right:5px;background:#202020;
+			-moz-border-radius:3px;
+			-webkit-border-radius:3px;
+			border-radius:3px;			
+			-moz-transition-duration:.4s;
+			-moz-transition-delay:.05s;
+			-webkit-transition-duration:.4s;
+			-webkit-transition-delay:.05s;
+			-o-transition-duration:.4s;
+			-o-transition-delay:.05s;			
+			transition-duration:.4s;
+			transition-delay:.05s;
+		}
+		a:hover:after,a:focus:after{background:#4EE1FC;
+			-moz-box-shadow:0 -1px 4px rgba(78,225,252,.7);
+			-webkit-box-shadow:0 -1px 4px rgba(78,225,252,.7);
+			box-shadow:0 -1px 4px rgba(78,225,252,.7);
+		}		
+	</style>
+</head>
+<body id="Asier">
+
+<script type="text/javascript">
+jQuery.noConflict();
+jQuery(document).ready(function () {
+  //jQuery("nav").hide();
+});
+</script>
+<div id="contenedor">
+<header>
+<nav id="nav_top" style="position: absolute; width: auto; vertical-align: top; margin-top: 100px; height: 20px;">
+<ul>
+    	<li><a href="#">Home</a></li>
+        <li><a href="#">Catalogo</a></li>
+        <li><a href="#">Promociones</a></li>
+        <li><a href="#">Pendiente...</a></li>
+</ul> 
+</nav>
+</header>
+<!--<div id="container" >
+	    <ul id="nav">
+
+			<li><a href="#">Articulos</a>
+		
+				<ul>
+					<li><a href="#">Listado de Articulos</a>
+					<li><a href="#">Listado de Articulos por Categoria</a>
+					</li>		
+				</ul>
+			</li>
+		
+			<li><a href="#">Tiendas</a>
+				<ul>
+					<li><a href="#">Listado de Tiendas</a>
+
+					</li>
+				</ul>
+			</li>
+		
+			<li><a href="#">Top Ventas</a>
+				<ul>
+		
+					<li><a href="#">Top 25 Tiendas</a></li>
+					<li><a href="#">Top 25 Venta Articulos</a></li>
+					<li><a href="#">Top 25 Categorias</a></li>
+				</ul>
+			</li>
+		
+		</ul>
+	
+    </div>-->
+<article>
+{% block content %}
+{% endblock %}
+</article>
+<!--<aside>
+## CONTENIDO SECUNDARIO DE LA P�GINA ##
+</aside>-->
+<!--<footer>
+&copy; {{ 'now' | date('Y') }} - Cupon
+<a href="#">Ayuda</a>
+<a href="#">Contacto</a>
+<a href="#">Privacidad</a>
+<a href="#">Sobre nosotros</a>
+</footer>-->
+</div></body>
+</html>

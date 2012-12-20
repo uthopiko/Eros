@@ -1,0 +1,128 @@
+ <script language="javascript" type="text/javascript">
+			$(document).ready(function(){
+			$(".agregar").live("click",function(){
+				var promocion = $(this).data("itempromocion");
+				if(promocion == 0){
+					if(confirm("Si añade un elemento se guardaran los datos de la promocion igualmente, desea añadir el elemento?")){
+						$('#PromocionType').submit();
+						var sidarticulo = $("#PromocionType_ddlArticulo").val();
+						var tipodescuento = $("#PromocionType_TipoDescuento2").val();
+						var stock = $("#txtStock").val();
+						var info = {
+						    "sidarticulo" : sidarticulo,
+						    "tipodescuento" : tipodescuento,
+						    "stock" : stock,
+						    "parametros":[
+					    	{
+					    		"parametro1" : "pa1",	
+					    	},
+					    	{
+					    		"parametro2" : "pa2",	
+					    	}],
+						};
+						$.post(Routing.generate('_agregar_articulo_promo',{'PidArticulo': sidarticulo,"PidPromocion":promocion,"Stock":stock,'PidTipoDescuento':tipodescuento,'info':info}),function(respuesta){
+							$("#tablapromocionesdetails").html(respuesta);
+						});
+					}
+				}else{
+					var sidarticulo = $("#PromocionType_ddlArticulo").val();
+					var tipodescuento = $("#PromocionType_TipoDescuento2").val();
+					var stock = $("#txtStock").val();
+				    var jsonObj = []; //declare array
+
+				    $('.parametros').each(function() {
+				    	var id=$(this).data("id");
+						jsonObj.push({id:id , value: $("#paramvalue"+id).val()});
+					});
+
+					$.post(Routing.generate('_agregar_articulo_promo',{'PidArticulo': sidarticulo,"PidPromocion":promocion,"Stock":stock,'PidTipoDescuento':tipodescuento}),{'info':jsonObj},function(respuesta){
+						$("#tablapromocionesdetails").html(respuesta);
+					});
+				}
+			});
+			
+			$(".borrar").click(function(){
+				var promocion = $(this).data("promocion");
+				var sidarticulo = $(this).data("articulo");
+		        $.post("{{ path('_borrar_articulo_promo') }}", { "SidPromocion": promocion,"SidArticulo":sidarticulo },function(respuesta){
+					$("#tablapromocionesdetails").html(respuesta);
+				});
+			});
+			
+			$("#PromocionType_ddlArticulo").change(function(){
+				$.post("{{ path('_ajax_articulo_precio')}}",{ "SidArticulo" : $("#PromocionType_ddlArticulo").val()},function(respuesta){
+					$("#txtPrecio").val(respuesta);
+					$("#hddPrecio").val(respuesta);
+				});
+			});
+			
+			$("#PromocionType_TipoDescuento2").change(function(){
+				$.post("{{ path('_ajax_load_parametros')}}",{ "SidTipoDescuento" : $("#PromocionType_TipoDescuento2").val()},function(respuesta){
+					$(".param").remove();
+					$(".edit").append("a"+respuesta) ;
+				});
+				$.post("{{ path('_ajax_load_titulos_parametros')}}",{ "SidTipoDescuento" : $("#PromocionType_TipoDescuento2").val()},function(respuesta){
+					$(".titparam").remove();
+					$(".titulos").append(respuesta) ;
+				});
+			});
+			
+			$(".precio").blur(function(){
+				/*var Precio = $("#hddPrecio").val();
+				var descuento = (Precio * 10)/100;
+				$("#txtDescuento").val(descuento);*/
+			});
+			
+			$(".calendar").kalendar();
+	});
+</script>
+			<!-- tables inside this DIV could contain drag-able content  -->
+			<div id="drag">
+				<table class="tbl1">
+					<colgroup>
+						<col width="30"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+					</colgroup>
+					<tbody>
+						<tr>
+							<th colspan="6" class="mark">Promociones</th>
+						</tr>
+						<tr class="titulos">
+							<td id="tit1">Accion</td>
+							<td id="tit2">Articulo</td>
+							<td id="tit3">Producto</td>
+							<td id="tit4">Stock</td>
+							<td id="tit5">Tipo Descuento</td>
+						</tr>
+						{% set promocion = pidpromocion %}
+						{% for articulo in articulos %}
+						{% set promocion = 0 %}
+						<tr class="read">
+							<td class="rowhandler"><div class="borrar" style="cursor: pointer;" data-articulo='{{articulo.sidarticulo.pidarticulo}}' data-promocion='{{articulo.sidpromocion.id}}'>aqui</div></td>
+							<td class="cdark"><label id="lblNombre{{articulo.id}}">{{articulo.sidarticulo.nombre}}</label></td>
+							<td><label id="lblNombre{{articulo.id}}">{{articulo.sidarticulo.producto.nombre}}</label></td>
+							<td><label id="lblStock{{articulo.id}}">{{articulo.stock}}</label></td>
+							<td><label id="lblTipoDescuento{{articulo.id}}">
+							{{ articulo.tipodescuento is none ? "" : articulo.tipodescuento.descuento}}
+							</label></td>
+							<td></td>
+						</tr>
+						{% set promocion = articulo.sidpromocion.id %}
+						{% endfor %}
+						<tr class="edit">
+							<td class="rowhandler"><div class="agregar" data-itempromocion="{{promocion}}" style="cursor: pointer;">aqui</div></td>
+							<td class="cdark">
+								{{ form_widget(form.ddlArticulo) }}</td>
+							<td></td>
+							<td><input type="text" id="txtStock"></td>
+							<td class="cdark">
+								{{ form_widget(form.TipoDescuento2) }}</td>
+						</tr>
+						<input type="hidden" name="hddPrecio" id="hddPrecio"/>
+					</tbody>
+				</table>
+			</div>

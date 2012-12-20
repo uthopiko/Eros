@@ -1,0 +1,13 @@
+{% block content %}
+<ul class="left_menu">
+		{% set cont = 1 %}
+		{% for item in items %}
+			{% if cont%2 == 0 %}
+				<li class="odd"><a href="{{path('_catalogo_list',{'empresa':item.id})}}">{{ item.NombreComercial	 }}</a></li>
+			{% else %}
+				 <li class="even"><a href="{{path('_catalogo_list',{'empresa':item.id})}}">{{ item.NombreComercial }}</a></li>
+			{% endif %}
+		{% set cont = cont + 1 %}
+		{% endfor %}
+        </ul> 
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends "ErosExtranetBundle::layout.html.twig" %}
+
+{% block content %}
+{% javascripts '@ErosExtranetBundle/Resources/public/js/jquery.kalendar.min.js'
+				 output='erosextranet/js/compiled/kalendar.js'%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+	{% endjavascripts %}
+
+<link rel="stylesheet" href="{{ asset('bundles/erosextranet/css/kalendar.css') }}" type="text/css" media="all" />
+
+ <div id="formulario">
+   <form action="{{ path('_promociones_add') }}" method="POST" {{ form_enctype(form) }} id="promociones_form">
+		<div class="columna1">
+		{{ form_errors(form) }}
+		{{ form_label(form.Nombre) }}
+		{{ form_widget(form.Nombre) }}
+		{{ form_label(form.Descripcion) }}
+		{{ form_widget(form.Descripcion) }}
+		{{ form_label(form.Descuento) }}
+		{{ form_widget(form.Descuento)}}
+		{{ form_label(form.FechaInicio) }}
+		{{ form_widget(form.FechaInicio)}}
+		{{ form_label(form.FechaFin) }}
+		{{ form_widget(form.FechaFin)}}
+		{{ form_label(form.TipoPromocion) }}
+		{{ form_widget(form.TipoPromocion) }}
+		{{ form_row(form._token) }}
+		</div>
+		<input type="submit" value="Agregar Catalogo" class="second" />
+	</form>
+ </div>
+ <br><p>
+{% endblock %}

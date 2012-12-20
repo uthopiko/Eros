@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title></title>
+	{% stylesheets 'bundles/erosfrontend/css/eros.css' filter='cssrewrite' %}
+		<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+	{% endstylesheets %}
+	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.ui.js') }}"></script>
+</head>
+
+
+<body>
+{% include 'ErosFrontendBundle:layouts:navbar.html.twig' %}
+{% block content %}
+	
+{% endblock %}
+<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jQuery.main.js') }}"></script>
+</body>
+
+</html>

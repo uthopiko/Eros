@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{% block title %}{% endblock %} | Eros-i</title>
+<!--<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>-->
+<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>-->
+<!--<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />-->
+<!--<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.js') }}"></script>-->
+<script type="text/javascript" src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script type="text/javascript" src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+<!--<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js" type="text/javascript"></script>-->
+<style>
+        body { font-size: 62.5%; }
+        label, input { display:block; }
+        input.text { margin-bottom:12px; width:95%; padding: .4em; }
+        fieldset { padding:0; border:0; margin-top:25px; }
+        h1 { font-size: 1.2em; margin: .6em 0; }
+        div#users-contain { width: 650px; margin: 20px 0; }
+        div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
+        div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+        .ui-dialog .ui-state-error { padding: .3em;}
+        .validateTips { border: 1px solid transparent; padding: 0.3em; }
+</style>
+<script>
+$(document).ready(function() {
+$("#subcategorias_menu").css("display","none");
+
+function dialog(empresa,action,mensaje){
+    $.fx.speeds._default = 2000;
+    $("#dialog").dialog({
+            resizable: false,
+            height:140,
+            modal: true,
+            show: "highlight",
+            hide: "highlight",
+            buttons: {
+                Aceptar: function() {
+                    var iddialog = $(this);
+                    $.post(Routing.generate(action,{'PidEmpresa' : empresa}),function(respuesta){
+                            $("#dialog").html(mensaje);
+                            var id = ".cliente" + empresa + "_add_link";
+                            var id2 = ".cliente" + empresa + "_delete_link";
+                            if(action == '_add_empresa_cliente'){
+                                $(id).css("display","none");
+                                $(id2).css("display","block");
+                            }else{
+                                $(id).css("display","block");
+                                $(id2).css("display","none");
+                            }
+                            $(".ui-dialog-buttonset").css("display","none");
+                            iddialog.dialog("close");
+                        });
+                },
+                Cancelar: function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        });
+}
+
+
+$(".modal-popup_add").live("click",function() {
+            $("#dialog").html("<p>¿Quieres hacerte cliente de la empresa?</p>");
+            dialog($(this).data("cliente"),'_add_empresa_cliente','<p>Te has hecho cliente de esta empresa.</p>');
+            return false;
+        });
+
+$(".modal-popup_delete").live("click",function() {
+             $("#dialog").html("<p>¿Deseas dejar de ser cliente de esta tienda?</p>");
+            dialog($(this).data("cliente"),'_delete_empresa_cliente','<p>Has dejado de ser cliente de esta empresa.</p>');
+            return false;
+        });
+
+$("#btnPedido").click(function(){
+    var NumeroElementos = $("#txtNumeroElementos").val();
+    var Articulo = $("#txtNumeroElementos").data("id");
+    var Precio = $("#txtNumeroElementos").data("precio");
+
+     $.post(Routing.generate('_ajax_add2_pedido',{'NumeroElementos' : NumeroElementos, 'Articulo' : Articulo,'Precio' : Precio}),function(respuesta){
+        $.modal.close();
+        $("#nElementos").text(respuesta.items);
+        $("#sumPrecio").text(respuesta.precio);
+    });
+    return false;
+});
+
+$('.subcategoria').live("click",function() {
+    $.post(Routing.generate('_catalogo_list',{'Empresa' : empresa}), { "SidSubCategoria": $(this).data("subcategoria")},function(respuesta){
+            $(".center_content").html(respuesta);
+        });
+});
+
+$('.accordion div ul li').click(function() {
+		var id = $(this);
+		if($("#subcategorias_menu").css("display")=="none"){
+			$("#subcategorias_menu").toggle(1,function(){
+				$.post("{{ path('_ajax_select_subcategorias')}}", { "SidCategoria": $(id).data("categoria")},function(respuesta){
+					$("#subcategorias_menu").html(respuesta);
+				});
+				$('.accordion #categorias_menu ul li').css("display","none");
+				$(id).css("display","block");
+				
+			});
+		}else{
+			$('.accordion #categorias_menu ul li').css("display","block");
+			$("#subcategorias_menu").css("display","none");
+		}
+		return false;
+	});
+// Tabs
+$('#tabs').tabs();
+});
+</script>
+<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/basic.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/erosfrontend/js/jquery.simplemodal.js') }}"></script>
+{% javascripts '@ErosFrontendBundle/Resources/public/js/boxOver.js'%}
+		<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% block stylesheets %}
+{% stylesheets 'bundles/erosfrontend/css/style.css' filter='cssrewrite' %}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% stylesheets 'bundles/erosfrontend/css/basic.css' filter='cssrewrite' %}
+<link href="{{ asset_url }}" rel="stylesheet" type="text/css" />
+{% endstylesheets %}
+{% endblock %}
+</head>
+<body>
+
+<div id="main_container">
+	<div class="top_bar">
+    	<div class="top_search">
+        	<div class="search_text"><a href="#">Busqueda Avanzada</a></div>
+            <input type="text" class="search_input" name="search" />
+            <input type="image" src="{{ asset('bundles/erosfrontend/images/search.gif') }}" class="search_bt"/>
+        </div>
+        
+        <div class="languages">
+        	<div class="lang_text">Languages:</div>
+            <a href="#" class="lang"><img src="{{ asset('bundles/erosfrontend/images/en.gif') }}" alt="" title="" border="0" /></a>
+            <a href="#" class="lang"><img src="{{ asset('bundles/erosfrontend/images/de.gif') }}" alt="" title="" border="0" /></a>       
+        </div>
+    
+    </div>
+	<div id="header">
+        
+        <div id="logo">
+            <a href="index.html"><!--<img src="{{ asset('bundles/erosfrontend/mages/logo.png') }}" alt="" title="" border="0" width="237" height="140" />--></a>
+	    </div>
+        
+        <div class="oferte_content">
+        	<div class="top_divider"><img src="{{ asset('bundles/erosfrontend/images/header_divider.png') }}" alt="" title="" width="1" height="164" /></div>
+        	<div class="oferta">
+            
+           		<div class="oferta_content">
+                	<img src="{{ asset('bundles/erosfrontend/images/laptop.png') }}" width="94" height="92" border="0" class="oferta_img" />
+                	
+                    <div class="oferta_details">
+                            <div class="oferta_title">Samsung GX 2004 LM</div>
+                            <div class="oferta_text">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                            </div>
+                            <a href="details.html" class="details">details</a>
+                    </div>
+                </div>
+                <div class="oferta_pagination">
+                
+                     <span class="current">1</span>
+                     <a href="#?page=2">2</a>
+                     <a href="#?page=3">3</a>
+                     <a href="#?page=3">4</a>
+                     <a href="#?page=3">5</a>  
+                             
+                </div>        
+
+            </div>
+            <div class="top_divider"><img src="{{ asset('bundles/erosfrontend/images/header_divider.png') }}" alt="" title="" width="1" height="164" /></div>
+        	
+        </div> <!-- end of oferte_content-->
+        
+         <div id="main_content"> 
+   
+            <div id="menu_tab">
+            <div class="left_menu_corner"></div>
+                    <ul class="menu">
+                         <li><a href="index.html" class="nav1">  Home </a></li>
+                         <li class="divider"></li>
+                         <li><a href="#" class="nav2">Productos</a></li>
+                         <li class="divider"></li>
+                         <li><a href="#" class="nav3">Empresas</a></li>
+                         <li class="divider"></li>
+                         <li><a href="#" class="nav4">Promociones</a></li>
+                         <li class="divider"></li>
+                         <li><a href="#" class="nav4">Mi Perfil</a></li>
+                         <li class="divider"></li>                         
+                         <li><a href="#" class="nav5">Compras</a></li>
+                         <li class="divider"></li>
+                         <li><a href="contact.html" class="nav6">Contacto</a></li>
+                         <li class="divider"></li>
+                         <li class="currencies">Moneda
+                         <select>
+                         <option>US Dollar</option>
+                         <option>Euro</option>
+                         </select>
+                         </li>
+                    </ul>
+
+             <div class="right_menu_corner"></div>
+            </div><!-- end of menu tab -->
+            
+    <div class="crumb_navigation">
+    Navigation: <span class="current">Home</span>
+    
+    </div>        
+	
+    
+   <div class="left_content">
+	<div class="accordion">
+    <div id="categorias_menu">
+		{% render "ErosFrontendBundle:Maestros:menuCategorias" %}
+	</div>
+    <div id="subcategorias_menu">
+	
+    </div>
+    </div>
+    
+     <div class="title_box">Producto Destacado:</div>  
+     <div class="border_box">
+         <div class="product_title"><a href="details.html">Motorola 156 MX-VL</a></div>
+         <div class="product_img"><a href="details.html"><!--<img src="images/laptop.png" alt="" title="" border="0" />--></a></div>
+         <div class="prod_price"><span class="reduce">350$</span> <span class="price">270$</span></div>
+     </div>  
+     
+     
+     <div class="title_box">Newsletter</div>  
+     <div class="border_box">
+		<input type="text" name="newsletter" class="newsletter_input" value="your email"/>
+        <a href="#" class="join">join</a>
+     </div>  
+     
+     <div class="banner_adds">
+     
+     </div>    
+        
+    
+   </div><!-- end of left content -->
+   
+   <div class="center_content">
+	{% block content %}
+	
+	{% endblock %}
+   </div><!-- end of center content -->
+   <div class="right_content">
+
+   		{% render 'ErosFrontendBundle:Default:cart' %}
+   
+     <div class="title_box">Novedades</div>  
+     <div class="border_box">
+         <div class="product_title"><a href="details.html">Motorola 156 MX-VL</a></div>
+         <div class="product_img"><a href="details.html"><!--<img src="images/p2.gif" alt="" title="" border="0" />--></a></div>
+         <div class="prod_price"><span class="reduce">350$</span> <span class="price">270$</span></div>
+     </div>  
+     
+     
+     
+    <div class="title_box">Tiendas</div>
+    
+        {% render "ErosFrontendBundle:Maestros:menuEmpresas" %}
+     
+     <div class="banner_adds">
+     
+     <a href="#"><!--<img src="images/bann1.jpg" alt="" title="" border="0" />--></a>
+     </div>        
+     
+   </div><!-- end of right content -->   
+   
+	</div>
+
+
+    </div>
+    
+
+</div>
+<div id='content'>
+            <!-- modal content -->
+            <div id="basic-modal-content">
+                <label for="txtNumeroElementos">Numero de elementos:</label><input type="text" id="txtNumeroElementos"\><br/>
+                <input type="button" id="btnPedido" Value="Realizar Pedido"\>
+
+            </div>
+
+            <!-- preload the images -->
+            <div style='display:none'>
+                 <img src="{{ asset('bundles/acmedemo/images/x.png') }}" alt="Symfony">
+            </div>
+</div>
+<div class="demo">
+
+<div id="dialog" title="Hacerte Cliente de la empresa">
+   
+</div>
+
+</div>
+<!-- end of main_container -->
+</body>
+</html>
